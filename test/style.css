@@ -1,0 +1,23 @@
+* { margin: 0; padding: 0; }
+body { width: 960px; font: 14px/22px Calibri; padding: 20px; }
+
+h1 { margin-bottom: 20px; }
+table { width: 100%; }
+th { background-color: #555; text-align: left; color: #fff; padding: 3px; }
+td { padding: 3px; vertical-align: top; }
+
+.odd td { background-color: #eee; }
+.even td { }
+
+.loader_container { width: 100%; text-align: center; }
+.loader { width: 24px; height: 24px; margin: 20px auto;
+    background: url(loader.gif) top left no-repeat; }
+
+.name { text-decoration: none; font-size: 18px; font-weight: bold;
+    border-bottom: 1px dashed #000; color: #000; }
+.formal_name { color: #555; }
+.type { }
+.sub_type { color: #555; }
+
+.info { color: #555; }
+.info .val_name { font-weight: bold; }

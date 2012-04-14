@@ -1,0 +1,13 @@
+%for d in data:
+<tr class="item" item_id="{{d[0]}}">
+    <td>
+        <div><a href="#" class="name">{{d[0]}}</a></div>
+        <div class="formal_name">{{d[1]}}</div>
+    </td>
+    <td>
+        <div class="type">{{d[2]}}</div>
+        <div class="sub_type">{{d[3]}}</div>
+    </td>
+    <td>{{d[5]}}</td>
+</tr>
+%end
