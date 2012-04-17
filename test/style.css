@@ -1,6 +1,7 @@
 * { margin: 0; padding: 0; }
 body { width: 960px; font: 14px/22px Calibri; padding: 20px; }
 
+a { color: #00b6ff; }
 h1 { margin-bottom: 20px; }
 table { width: 100%; }
 th { background-color: #555; text-align: left; color: #fff; padding: 3px; }
@@ -21,3 +22,9 @@ td { padding: 3px; vertical-align: top; }
 
 .info { color: #555; }
 .info .val_name { font-weight: bold; }
+
+.pagination { text-align: right; }
+.current_page { display: inline; padding-right: 30px; }
+.page_navigation { display: inline; }
+.page_navigation a { margin-left: 5px; }
+.page_navigation a.show_all_link { margin: 0 10px 0 30px; }

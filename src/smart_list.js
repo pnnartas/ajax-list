@@ -23,9 +23,11 @@ var defaults = {
     get_item_info_url: null,
 
     // Selector for finding pagination block container
-    pagination_selector: ".pagination",
+    pagination_container_selector: ".pagination",
     // Number of items on one page
     items_on_page: 50,
+    // Should we display "Show all" link in pagination block.
+    allow_show_all: true,
 
     // Selector for finding container of the add/edit item form
     form_container_selector: ".form_container",
@@ -62,29 +64,44 @@ var $container = this;
 var $table = $container.find(opts.table_selector);
 var layout = $table[0].tagName.toLowerCase();
 var $items = null;
+var $pagination_container =
+    $container.find(opts.pagination_container_selector);
+var current_page = 0;
 
+bind_pagination_links();
 update_table();
 
-function update_table() {
+function update_table(page) {
     if (!opts.get_table_content_url) return;
 
+    $pagination_container.children().remove();
     show_table_loader();
 
     var data = {};
+    if (typeof page !== "undefined") data.page = page;
     add_additional_request_data(data);
 
     $.get(opts.get_table_content_url, data, function(data, status) {
         hide_table_loader();
+
         $table.find(opts.table_content_selector).append(data);
+
         $items = $table.find(opts.table_item_selector);
-        set_item_altering();
-        $items.find(opts.item_details_link_selector).click(function() {
-            var $item = $(this).closest(opts.table_item_selector);
-            if (get_item_details($item).length > 0) close_item_details($item);
-            else open_item_details($item);
-            return false;
-        });
+
+        set_up_item_altering();
+        set_up_item_details_interface();
+        set_up_pagination();
+
         $container.trigger("smartListUpdate");
+    });
+}
+
+function set_up_item_details_interface() {
+    $items.find(opts.item_details_link_selector).click(function() {
+    var $item = $(this).closest(opts.table_item_selector);
+        if (get_item_details($item).length > 0) close_item_details($item);
+        else open_item_details($item);
+        return false;
     });
 }
 
@@ -105,7 +122,7 @@ function add_additional_request_data(data) {
         data[p] = opts.additional_request_data[p];
 }
 
-function set_item_altering() {
+function set_up_item_altering() {
     if ($items.filter(".even, .odd").length > 0) return;
 
     i = 0;
@@ -170,6 +187,46 @@ function show_item_details_loader($item_details) {
 
 function hide_item_details_loader($item_details) {
     $item_details.find(".info .loader_container").remove();
+}
+
+function set_up_pagination() {
+    var $first_item = $items.first();
+    if (typeof $first_item.attr("item_number") === "undefined" &&
+            typeof $first_item.attr("item_count") === "undefined") return;
+
+    var item_number = parseInt($first_item.attr("item_number"));
+    var item_count = parseInt($first_item.attr("item_count"));
+    current_page = Math.floor(item_number / opts.items_on_page);
+    var pages_num = Math.ceil(item_count / opts.items_on_page);
+    if (pages_num == current_page) return;
+
+    var html = '<div class="current_page">Page ' + (current_page + 1) + "/" +
+        pages_num + "</div>";
+    html += '<div class="page_navigation">';
+    if (current_page != 0)
+        html += '<a href="#" class="prev_link">Previous</a>';
+    if (current_page != pages_num - 1)
+        html += '<a href="#" class="next_link">Next</a>';
+    if (opts.allow_show_all)
+        html += '<a href="#" class="show_all_link">Show all</a>';
+    html += "</div>";
+
+    $pagination_container.append(html);
+}
+
+function bind_pagination_links() {
+    $pagination_container.find("a.prev_link").live("click", function() {
+        update_table(current_page - 1);
+        return false;
+    });
+    $pagination_container.find("a.next_link").live("click", function() {
+        update_table(current_page + 1);
+        return false;
+    });
+    $pagination_container.find("a.show_all_link").live("click", function() {
+        update_table("all");
+        return false;
+    });
 }
 
 }})($);
