@@ -1,4 +1,3 @@
-* Implement sorting
 * Adding items
 * Editing items
 * Deleting items
