@@ -11,15 +11,24 @@ def static(path):
 
 @route("/get_countries")
 def get_countries():
+    page = request.query.get("page", 0)
+    sort = request.query.get("sort", "name")
+    sort_dir = request.query.get("sort_dir", "asc")
+
     data = get_countries_info()
     item_count = len(data)
-    page = request.query.get("page", 0)
+
+    sort_i = {"name": 0, "type": 2, "capital": 5}.get(sort, "name")
+    data = sorted(data, key=lambda s: s[sort_i], 
+        reverse=sort_dir == "desc" and True or False)
+
     if page != "all":
         first_item = int(page) * 50;
         last_item = first_item + 49;
         data = data[first_item:last_item + 1]
     else:
         first_item = 0
+
     return template("table_content", data=data, first_item=first_item,
         item_count=item_count)
 

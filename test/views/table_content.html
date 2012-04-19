@@ -1,8 +1,6 @@
-%i = first_item
+<tr class="meta" item_count="{{item_count}}"></tr>
 %for d in data:
-<tr class="item" item_id="{{d[0]}}" item_number="{{i}}"
-    item_count="{{item_count}}">
-    %i += 1
+<tr class="item" item_id="{{d[0]}}">
     <td>
         <div><a href="#" class="name">{{d[0]}}</a></div>
         <div class="formal_name">{{d[1]}}</div>

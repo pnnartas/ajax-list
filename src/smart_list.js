@@ -29,6 +29,9 @@ var defaults = {
     // Should we display "Show all" link in pagination block.
     allow_show_all: true,
 
+    // Default sorting. Format: "field_name asc/desc"
+    default_sorting: "",
+
     // Selector for finding container of the add/edit item form
     form_container_selector: ".form_container",
 
@@ -66,32 +69,47 @@ var layout = $table[0].tagName.toLowerCase();
 var $items = null;
 var $pagination_container =
     $container.find(opts.pagination_container_selector);
-var current_page = 0;
 
-bind_pagination_links();
+var current_page = 0;
+var current_sort = null;
+var current_sort_dir = null;
+if (opts.default_sorting) {
+    current_sort = opts.default_sort.split(" ")[0];
+    current_sort_dir = opts.default_sort.split(" ").length > 1 ?
+        opts.default_sort.split(" ")[0] : "asc";
+}
+var table_is_updating = false;
+
+rig_pagination_links();
+set_up_sorting();
 update_table();
 
-function update_table(page) {
+function update_table() {
     if (!opts.get_table_content_url) return;
 
-    $pagination_container.children().remove();
+    table_is_updating = true;
     show_table_loader();
 
     var data = {};
-    if (typeof page !== "undefined") data.page = page;
+    if (current_page != null) data.page = current_page;
+    if (current_sort != null) data.sort = current_sort;
+    if (current_sort_dir != null) data.sort_dir = current_sort_dir;
     add_additional_request_data(data);
 
     $.get(opts.get_table_content_url, data, function(data, status) {
         hide_table_loader();
 
-        $table.find(opts.table_content_selector).append(data);
+        var $data = $(data);
+        var $meta = $data.filter(".meta").remove();
+        $table.find(opts.table_content_selector).append($data);
 
         $items = $table.find(opts.table_item_selector);
 
         set_up_item_altering();
         set_up_item_details_interface();
-        set_up_pagination();
+        set_up_pagination($meta);
 
+        table_is_updating = false;
         $container.trigger("smartListUpdate");
     });
 }
@@ -189,24 +207,24 @@ function hide_item_details_loader($item_details) {
     $item_details.find(".info .loader_container").remove();
 }
 
-function set_up_pagination() {
-    var $first_item = $items.first();
-    if (typeof $first_item.attr("item_number") === "undefined" &&
-            typeof $first_item.attr("item_count") === "undefined") return;
+function set_up_pagination($meta) {
+    $pagination_container.children().remove();
+    var item_count = $meta.attr("item_count");
+    if (!item_count) return;
+    if (item_count == $items.length) return;
 
-    var item_number = parseInt($first_item.attr("item_number"));
-    var item_count = parseInt($first_item.attr("item_count"));
-    current_page = Math.floor(item_number / opts.items_on_page);
     var pages_num = Math.ceil(item_count / opts.items_on_page);
-    if (pages_num == current_page) return;
 
     var html = '<div class="current_page">Page ' + (current_page + 1) + "/" +
         pages_num + "</div>";
     html += '<div class="page_navigation">';
     if (current_page != 0)
         html += '<a href="#" class="prev_link">Previous</a>';
+    else html += '<span class="prev_link inactive">Previous</span>';
+    html += ' / ';
     if (current_page != pages_num - 1)
         html += '<a href="#" class="next_link">Next</a>';
+    else html += '<span class="next_link inactive">Next</span>';
     if (opts.allow_show_all)
         html += '<a href="#" class="show_all_link">Show all</a>';
     html += "</div>";
@@ -214,19 +232,52 @@ function set_up_pagination() {
     $pagination_container.append(html);
 }
 
-function bind_pagination_links() {
+function rig_pagination_links() {
     $pagination_container.find("a.prev_link").live("click", function() {
-        update_table(current_page - 1);
+        if (table_is_updating) return false;
+        update_table(current_page -= 1);
         return false;
     });
     $pagination_container.find("a.next_link").live("click", function() {
-        update_table(current_page + 1);
+        if (table_is_updating) return false;
+        update_table(current_page += 1);
         return false;
     });
     $pagination_container.find("a.show_all_link").live("click", function() {
-        update_table("all");
+        if (table_is_updating) return false;
+        current_page = "all";
+        update_table(current_page);
         return false;
     });
+}
+
+function set_up_sorting() {
+    $table.find("th").each(function() {
+        var $th = $(this);
+        var srt = $th.attr("sort_name");
+        if (typeof srt !== "undefined") {
+            $th.click(function() {
+                if (current_sort == srt)
+                    current_sort_dir = current_sort_dir == "asc" ?
+                        "desc" : "asc";
+                else {
+                    current_sort = srt;
+                    current_sort_dir = "asc";
+                }
+                update_table();
+                update_current_sort_header();
+                return;
+            });
+        }
+    });
+}
+
+function update_current_sort_header() {
+    $table.find(".sort_marker").remove();
+    var $th = $table.find("th[sort_name=" + current_sort + "]");
+    var marker = current_sort_dir == "asc" ? "&#9652;" : "&#9662;";
+    $th.append('<span class="sort_marker ' + current_sort_dir + '">' + 
+        marker + '</span>');
 }
 
 }})($);
