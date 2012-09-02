@@ -1,6 +1,3 @@
-* Adding items
-* Editing items
-* Deleting items
 * Make table loader occupy whole table (so the size of the table won't change
   while loading)
 * Add ability to override pagination generation with JS function or

@@ -158,7 +158,7 @@ Slovakia,Slovak Republic,Independent State,,,Bratislava,SKK,Koruna,+421,SK,SVK,7
 Slovenia,Republic of Slovenia,Independent State,,,Ljubljana,EUR,Euro,+386,SI,SVN,705,.si
 Solomon Islands,,Independent State,,,Honiara,SBD,Dollar,+677,SB,SLB,90,.sb
 Somalia,,Independent State,,,Mogadishu,SOS,Shilling,+252,SO,SOM,706,.so
-South Africa,Republic of South Africa,Independent State,,,"Pretoria (administrative), Cape Town (legislative), and Bloemfontein 
+South Africa,Republic of South Africa,Independent State,,,"Pretoria (administrative), Cape Town (legislative), and Bloemfontein
 (judical)",ZAR,Rand,+27,ZA,ZAF,710,.za
 Spain,Kingdom of Spain,Independent State,,,Madrid,EUR,Euro,+34,ES,ESP,724,.es
 Sri Lanka,Democratic Socialist Republic of Sri Lanka,Independent State,,,Colombo (administrative/judical) and Sri Jayewardenepura Kotte (legislative),LKR,Rupee,+94,LK,LKA,144,.lk
@@ -225,7 +225,7 @@ Jersey,Bailiwick of Jersey,Dependency,Crown Dependency,United Kingdom,Saint Heli
 Anguilla,,Dependency,Overseas Territory,United Kingdom,The Valley,XCD,Dollar,+1-264,AI,AIA,660,.ai
 Bermuda,,Dependency,Overseas Territory,United Kingdom,Hamilton,BMD,Dollar,+1-441,BM,BMU,60,.bm
 British Indian Ocean Territory,,Dependency,Overseas Territory,United Kingdom,,,,+246,IO,IOT,86,.io
-British Sovereign Base Areas,,Dependency,Overseas Territory,United Kingdom,Episkopi,CYP,Pound,+357
+British Sovereign Base Areas,,Dependency,Overseas Territory,United Kingdom,Episkopi,CYP,Pound,+357,,,,
 British Virgin Islands,,Dependency,Overseas Territory,United Kingdom,Road Town,USD,Dollar,+1-284,VG,VGB,92,.vg
 Cayman Islands,,Dependency,Overseas Territory,United Kingdom,George Town,KYD,Dollar,+1-345,KY,CYM,136,.ky
 Falkland Islands (Islas Malvinas),,Dependency,Overseas Territory,United Kingdom,Stanley,FKP,Pound,+500,FK,FLK,238,.fk
@@ -238,17 +238,17 @@ Turks and Caicos Islands,,Dependency,Overseas Territory,United Kingdom,Grand Tur
 Northern Mariana Islands,Commonwealth of The Northern Mariana Islands,Dependency,Commonwealth,United States,Saipan,USD,Dollar,+1-670,MP,MNP,580,.mp
 Puerto Rico,Commonwealth of Puerto Rico,Dependency,Commonwealth,United States,San Juan,USD,Dollar,+1-787 and 1-939,PR,PRI,630,.pr
 American Samoa,Territory of American Samoa,Dependency,Territory,United States,Pago Pago,USD,Dollar,+1-684,AS,ASM,16,.as
-Baker Island,,Dependency,Territory,United States,,,,,UM,UMI,581
+Baker Island,,Dependency,Territory,United States,,,,,UM,UMI,581,
 Guam,Territory of Guam,Dependency,Territory,United States,Hagatna,USD,Dollar,+1-671,GU,GUM,316,.gu
-Howland Island,,Dependency,Territory,United States,,,,,UM,UMI,581
-Jarvis Island,,Dependency,Territory,United States,,,,,UM,UMI,581
-Johnston Atoll,,Dependency,Territory,United States,,,,,UM,UMI,581
-Kingman Reef,,Dependency,Territory,United States,,,,,UM,UMI,581
-Midway Islands,,Dependency,Territory,United States,,,,,UM,UMI,581
-Navassa Island,,Dependency,Territory,United States,,,,,UM,UMI,581
-Palmyra Atoll,,Dependency,Territory,United States,,,,,UM,UMI,581
+Howland Island,,Dependency,Territory,United States,,,,,UM,UMI,581,
+Jarvis Island,,Dependency,Territory,United States,,,,,UM,UMI,581,
+Johnston Atoll,,Dependency,Territory,United States,,,,,UM,UMI,581,
+Kingman Reef,,Dependency,Territory,United States,,,,,UM,UMI,581,
+Midway Islands,,Dependency,Territory,United States,,,,,UM,UMI,581,
+Navassa Island,,Dependency,Territory,United States,,,,,UM,UMI,581,
+Palmyra Atoll,,Dependency,Territory,United States,,,,,UM,UMI,581,
 U.S. Virgin Islands,United States Virgin Islands,Dependency,Territory,United States,Charlotte Amalie,USD,Dollar,+1-340,VI,VIR,850,.vi
-Wake Island,,Dependency,Territory,United States,,,,,UM,UMI,850
+Wake Island,,Dependency,Territory,United States,,,,,UM,UMI,850,
 Hong Kong,Hong Kong Special Administrative Region,Proto Dependency,Special Administrative Region,China,,HKD,Dollar,+852,HK,HKG,344,.hk
 Macau,Macau Special Administrative Region,Proto Dependency,Special Administrative Region,China,Macau,MOP,Pataca,+853,MO,MAC,446,.mo
 Faroe Islands,,Proto Dependency,,Denmark,Torshavn,DKK,Krone,+298,FO,FRO,234,.fo
@@ -262,7 +262,7 @@ Aruba,,Proto Dependency,,Netherlands,Oranjestad,AWG,Guilder,+297,AW,ABW,533,.aw
 Netherlands Antilles,,Proto Dependency,,Netherlands,Willemstad,ANG,Guilder,+599,AN,ANT,530,.an
 Svalbard,,Proto Dependency,,Norway,Longyearbyen,NOK,Krone,+47,SJ,SJM,744,.sj
 Ascension,,Proto Dependency,Dependency of Saint Helena,United Kingdom,Georgetown,SHP,Pound,+247,AC,ASC,,.ac
-Tristan da Cunha,,Proto Dependency,Dependency of Saint Helena,United Kingdom,Edinburgh,SHP,Pound,+290,TA,TAA
+Tristan da Cunha,,Proto Dependency,Dependency of Saint Helena,United Kingdom,Edinburgh,SHP,Pound,+290,TA,TAA,,
 Antarctica,,Disputed Territory,,Undetermined,,,,,AQ,ATA,10,.aq
 Kosovo,,Disputed Territory,,Administrated by the UN,Pristina,CSD and EUR,Dinar and Euro,+381,CS,SCG,891,.cs and .yu
 Palestinian Territories (Gaza Strip and West Bank),,Disputed Territory,,Administrated by Israel,Gaza City (Gaza Strip) and Ramallah (West Bank),ILS,Shekel,+970,PS,PSE,275,.ps
