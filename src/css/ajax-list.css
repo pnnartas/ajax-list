@@ -1,0 +1,53 @@
+.spinner-container {
+  width: 100%;
+  text-align: center;
+}
+.spinner {
+  width: 24px;
+  height: 24px;
+  margin: 20px auto;
+  background: url("./static/spinner.gif") top left no-repeat;
+}
+.action-tooltip {
+  white-space: nowrap;
+  position: absolute;
+  z-index: 1;
+  padding: 11px 6px;
+  line-height: 0px;
+  background-color: #0088cc;
+  color: white;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.action-tooltip:after {
+  content: '';
+  display: inline-block;
+  border-top: 6px solid transparent;
+  border-right: 6px solid #0088cc;
+  border-bottom: 6px solid transparent;
+  position: absolute;
+  top: 12px;
+  left: -6px;
+}
+.action-tooltip .icon-white {
+  margin: 0 3px;
+}
+table .odd {
+  background-color: #f9f9f9;
+}
+table tr.subcontainer td {
+  padding: 0;
+}
+table tr.subcontainer form {
+  margin: 0;
+}
+table tr.subcontainer form .form-actions {
+  margin-bottom: 0;
+}
+table tr.subcontainer:hover td {
+  background-color: transparent;
+}
