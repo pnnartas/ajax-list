@@ -4,13 +4,13 @@
 
 "use strict";
 
-$.fn.smartList = function(options) {
+$.fn.ajaxList = function(options) {
 
 /*****************************************************************************
  Public API
  *****************************************************************************/
 
-this.smartList = {
+this.ajaxList = {
     update: update_list
 };
 
@@ -19,7 +19,7 @@ this.smartList = {
  *****************************************************************************/
 
 var $element = this;
-var opts = $.extend($.fn.smartList.defaults, determine_attribute_options(),
+var opts = $.extend($.fn.ajaxList.defaults, determine_attribute_options(),
     options);
 var $list = $element.find(opts.list_selector);
 var $items = null;
@@ -47,16 +47,16 @@ update_list();
 function determine_attribute_options() {
     var attr_opts = {};
 
-    // abilities are stored in smart-list-able attribute
-    var abilities = $element.attr("smart-list-able");
+    // abilities are stored in ajax-list-able attribute
+    var abilities = $element.attr("ajax-list-able");
     if (abilities) {
         if (abilities === "all")
             abilities = ["add", "edit", "delete", "details"];
         else abilities = abilities.split(",");
     } else abilities = [];
 
-    // base url is stored in smart-list-url attribute
-    var url = $element.attr("smart-list-url");
+    // base url is stored in ajax-list-url attribute
+    var url = $element.attr("ajax-list-url");
     if (url) {
         attr_opts.get_content_url = url.replace("*", "get_content");
         if ($.inArray("add", abilities) != -1)
@@ -69,8 +69,8 @@ function determine_attribute_options() {
             attr_opts.get_item_details_url = url.replace("*", "get_details");
     }
 
-    // additional request data is stored in smart-list-data attribute
-    var data = $element.attr("smart-list-data");
+    // additional request data is stored in ajax-list-data attribute
+    var data = $element.attr("ajax-list-data");
     if (data) attr_opts.additional_request_data = deserialize(data);
 
     return attr_opts;
@@ -264,7 +264,7 @@ function update_list() {
             set_up_item_actions_tooltip();
         }
 
-        $element.trigger("smartListUpdate");
+        $element.trigger("ajaxListUpdate");
     }).error(check_request_error);
 }
 
@@ -582,7 +582,7 @@ function delete_hovered_item() {
  Plugin Defaults
  *****************************************************************************/
 
-$.fn.smartList.defaults = {
+$.fn.ajaxList.defaults = {
     // URL for retrieving content for current list state. Required.
     get_content_url: null,
     // Selector for finding list.
@@ -685,8 +685,8 @@ function insert_subcontainer_in_table($list, $after_item, opts) {
  *****************************************************************************/
 
 $(function() {
-    $("[data-display=smart-list]").each(function() {
-        $(this).smartList();
+    $("[data-display=ajax-list]").each(function() {
+        $(this).ajaxList();
     });
 });
 
