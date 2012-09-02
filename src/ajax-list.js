@@ -18,10 +18,10 @@ this.ajaxList = {
  Initialization
  *****************************************************************************/
 
-var $element = this;
+var $list = $(this);
+var $element = $(this).parent();
 var opts = $.extend($.fn.ajaxList.defaults, determine_attribute_options(),
     options);
-var $list = $element.find(opts.list_selector);
 var $items = null;
 var list_is_updating = false;
 
@@ -48,7 +48,7 @@ function determine_attribute_options() {
     var attr_opts = {};
 
     // abilities are stored in ajax-list-able attribute
-    var abilities = $element.attr("ajax-list-able");
+    var abilities = $list.attr("ajax-list-able");
     if (abilities) {
         if (abilities === "all")
             abilities = ["add", "edit", "delete", "details"];
@@ -56,9 +56,9 @@ function determine_attribute_options() {
     } else abilities = [];
 
     // base url is stored in ajax-list-url attribute
-    var url = $element.attr("ajax-list-url");
+    var url = $list.attr("ajax-list-url");
     if (url) {
-        attr_opts.get_content_url = url.replace("*", "get_content");
+        attr_opts.get_content_url = url.replace("*", "get_list");
         if ($.inArray("add", abilities) != -1)
             attr_opts.item_add_url = url.replace("*", "save");
         if ($.inArray("edit", abilities) != -1)
@@ -70,7 +70,7 @@ function determine_attribute_options() {
     }
 
     // additional request data is stored in ajax-list-data attribute
-    var data = $element.attr("ajax-list-data");
+    var data = $list.attr("ajax-list-data");
     if (data) attr_opts.additional_request_data = deserialize(data);
 
     return attr_opts;
@@ -264,7 +264,7 @@ function update_list() {
             set_up_item_actions_tooltip();
         }
 
-        $element.trigger("ajaxListUpdate");
+        $list.trigger("ajaxListUpdate");
     }).error(check_request_error);
 }
 
@@ -405,7 +405,7 @@ function open_item_details($item) {
         $info.append(data);
         $info.slideDown(200);
 
-        $element.trigger("itemDetailsShow");
+        $list.trigger("itemDetailsShow");
     });
 }
 
@@ -451,7 +451,7 @@ function submit_form(data) {
         data: $.extend(opts.additional_request_data, data),
         success: function(response) {
             if (response) show_error(response);
-            $element.trigger("itemFormSubmit");
+            $list.trigger("itemFormSubmit");
             update_list();
             hide_form();
         },
@@ -469,6 +469,8 @@ function show_add_form() {
 
     $item_form.resetForm();
     $item_form_container.append($item_form);
+
+    $list.trigger('addFormShow', [$item]);
 
     // Invoking form fields change event
     var $fields = $item_form.find("input, textarea, select");
@@ -505,7 +507,7 @@ function show_edit_form($item) {
         opts.insert_subcontainer_function($list, $hovered_item, opts);
     $edit_form_container.find(".subcontent").append($item_form);
 
-    $element.trigger('editFormShow', [$item]);
+    $list.trigger('editFormShow', [$item]);
 
     $item_form.find('.omitted_on_edit').hide();
 
@@ -585,8 +587,6 @@ function delete_hovered_item() {
 $.fn.ajaxList.defaults = {
     // URL for retrieving content for current list state. Required.
     get_content_url: null,
-    // Selector for finding list.
-    list_selector: "table",
     // Selector for finding content of list.
     content_selector: "tbody",
 

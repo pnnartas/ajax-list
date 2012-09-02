@@ -1,5 +1,9 @@
-import csv
+import sqlite3
 from bottle import route, run, static_file, template, request
+
+conn = sqlite3.connect("countries.db")
+conn.row_factory = sqlite3.Row
+c = conn.cursor()
 
 
 @route("/static/<path:path>")
@@ -9,12 +13,26 @@ def js(path):
 
 @route("/ajax-list/<path:path>")
 def static(path):
-    return static_file(path, root="../")
+    return static_file(path, root="../src")
 
 
 @route("/<path:path>")
 def html(path):
     return static_file(path, root="./static")
+
+
+@route("/country_info_get_list")
+def get_list():
+    page = request.query.get("page", 0)
+    sort = request.query.get("sort", "name")
+    sort_dir = request.query.get("sort_dir")
+
+    start = 0
+    end = 10
+    res = c.execute("select rowid, * from countries limit %i, %i" % (start, end))
+    data = [data for data in res]
+
+    return template("country_list", data=data)
 
 
 # @route("/get_countries")

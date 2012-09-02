@@ -1,0 +1,13 @@
+%for d in data:
+<tr class="item" data-item="{{d["rowid"]}}">
+    <td>
+        <div><a href="#" class="name">{{d["common_name"]}}</a></div>
+        <div class="formal_name">{{d["formal_name"]}}</div>
+    </td>
+    <td>
+        <div class="type">{{d["type"]}}</div>
+        <div class="sub_type">{{d["sub_type"]}}</div>
+    </td>
+    <td>{{d["capital"]}}</td>
+</tr>
+%end
