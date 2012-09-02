@@ -1,0 +1,70 @@
+<div class="education span9 hidden" data-display="smart-list" smart-list-able="add,edit,delete" smart-list-url="/user/transcript_new/education_*.php" smart-list-data="user_id=<?= $user_id ?>">
+    <h2>Education History</h2>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Name of Institution</th>
+            <th>Type of Degree</th>
+            <th>Degree</th>
+            <th>Major</th>
+            <th>GPA</th>
+            <th>Year</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <form class="item-form form-horizontal" enctype="multipart/form-data" method="post">
+        <h3>Add Education History Entry</h3>
+        <fieldset>
+        <div class="control-group">
+            <label class="control-label" for="institution-name">Institution Name:</label>
+            <div class="controls">
+                <input type="text" id="institution-name" name="name" value="" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="type-of-degree">Type of Degree:</label>
+            <div class="controls">
+                <select id="type-of-degree" name="degree_type_id" data-display="combobox">
+                    <?= get_degree_options() ?>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="degree">Degree:</label>
+            <div class="controls">
+                <input type="text" id="degree" name="degree" value="" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="major">Major:</label>
+            <div class="controls">
+                <input type="text" id="major" name="major" value="" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="gpa">Cumulative GPA:</label>
+            <div class="controls">
+                <input type="text" id="gpa" name="gpa" value="" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="year-of-graduation">Year of Graduation:</label>
+            <div class="controls">
+                <input type="text" id="year-of-graduation" name="years" value="" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="transcript-file">Transcript/Diploma File:</label>
+            <div class="controls">
+                <input type="file" id="transcript-file" name="transcript_file" value="" />
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Add entry</button>
+            <a class="btn cancel-button" href="#">Cancel</a>
+        </div>
+        </fieldset>
+    </form>
+</div>
