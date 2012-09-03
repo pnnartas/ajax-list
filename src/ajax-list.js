@@ -369,7 +369,7 @@ function rig_pagination_links() {
 // Sorting ////////////////////////////////////////////////////////////////////
 
 function update_current_sort_header() {
-    $list.find(".sort_marker").remove();
+    $list.find(".sort-marker").remove();
     var $th = $list.find("th[sort-name=" + current_sort + "]");
     var marker = current_sort_dir === "asc" ? "&#9652;" : "&#9662;";
     $th.append('<span class="sort-marker ' + current_sort_dir + '">' +

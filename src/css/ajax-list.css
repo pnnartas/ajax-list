@@ -42,6 +42,9 @@ table .odd {
 table tr.subcontainer td {
   padding: 0;
 }
+table tr.subcontainer .subcontent {
+  padding: 20px;
+}
 table tr.subcontainer form {
   margin: 0;
 }
@@ -54,4 +57,7 @@ table tr.subcontainer:hover td {
 .pagination .show-all-link {
   border-color: transparent;
   margin-left: 20px;
+}
+.sort-marker {
+  padding-left: 5px;
 }

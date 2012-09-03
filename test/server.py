@@ -24,8 +24,8 @@ def html(path):
 @route("/country_info_get_list")
 def get_list():
     page = request.query.get("page", 0)
-    sort = request.query.get("sort", "name")
-    sort_dir = request.query.get("sort_dir")
+    sort = request.query.get("sort", "common_name")
+    sort_dir = request.query.get("sort_dir", "asc")
 
     res = c.execute("select count(*) from countries")
     count = res.fetchone()[0]
@@ -38,9 +38,9 @@ def get_list():
         start = per_page * int(page)
         end = start + per_page
 
-    res = c.execute("select rowid, * from countries limit ?, ?",
-        (start, end))
-    data = [data for data in res]
+    res = c.execute("select rowid, * from countries order by %s %s limit ?, ?"
+        % (sort, sort_dir), (start, end))
+    data = [row for row in res]
 
     return template("country_list", data=data, count=count, per_page=per_page,
         start=start)
