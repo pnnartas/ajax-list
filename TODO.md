@@ -4,6 +4,7 @@
 * List test/functionality
 * Div list test/functionality
 * AJAX List inside AJAX List test/functionality
+* Browser tests
 * Documentation
 * Code comments
 * Live demos
