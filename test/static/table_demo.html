@@ -28,18 +28,115 @@
       <h1>AJAX List Functionality Demo</h1>
 
       <div id="countries">
-          <div class="pagination-container"></div>
-          <table class="table table-bordered" data-display="ajax-list" ajax-list-able="add,edit,delete,details" ajax-list-url="/country_info_*">
-              <thead>
-                  <tr>
-                      <th style="width: 30px;"></th>
-                      <th sort-name="common_name"><a href="#">Name</a></th>
-                      <th sort-name="type" style="width: 20%;"><a href="#">Type</a></th>
-                      <th sort-name="capital" style="width: 20%;"><a href="#">Capital</a></th>
-                  </tr>
-              </thead>
-              <tbody></tbody>
-          </table>
+
+        <div class="pull-left">
+        <form class="item-form form-horizontal" enctype="multipart/form-data" method="post">
+          <h3>Add Country</h3>
+          <div class="row">
+            <fieldset class="span4">
+              <div class="control-group">
+                <label class="control-label" for="common-name">Common Name</label>
+                <div class="controls">
+                  <input type="text" id="common-name" name="common_name" value="">
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="formal-name">Formal Name</label>
+                <div class="controls">
+                  <input type="text" id="formal-name" name="formal_name" value="">
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="type">Type</label>
+                <div class="controls">
+                  <input type="text" id="type" name="type" value="">
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="sub-type">Sub Type</label>
+                <div class="controls">
+                  <input type="text" id="sub-type" name="sub_type" value="">
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="soveregnity">Sovereinity</label>
+                <div class="controls">
+                  <input type="text" id="soveregnity" name="sovereignty" value="">
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="capital">Capital</label>
+                <div class="controls">
+                  <input type="text" id="capital" name="capital" value="">
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="span5">
+              <div class="control-group">
+                <label class="control-label" for="iso4217-currency-code">ISO 4217 Currency Code</label>
+                <div class="controls">
+                  <input type="text" id="iso4217-currency-code" name="iso4217_currency_code" value="">
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="iso4217-currency-name">ISO 4217 Currency Name</label>
+                <div class="controls">
+                  <input type="text" id="iso4217-currency-name" name="iso4217_currency_name" value="">
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="itu-t-telephone-code">ITU-T Telephone Code</label>
+                <div class="controls">
+                  <input type="text" id="itu-t-telephone-code" name="itu_t_telephone_code" value="">
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="iso3166-1-2letter-code">ISO 3166-1 2-Letter Code</label>
+                <div class="controls">
+                  <input type="text" id="iso3166-1-2letter-code" name="iso3166_1_2letter_code" value="">
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="iso3166-1-3letter-code">ISO 3166-1 3-Letter Code</label>
+                <div class="controls">
+                  <input type="text" id="iso3166-1-3letter-code" name="iso3166_1_3letter_code" value="">
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="iso3166-1-number">ISO 3166-1 Number</label>
+                <div class="controls">
+                  <input type="text" id="iso3166-1-number" name="iso_3166_1_number" value="">
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="iana-country-code-tld">IANA Country Code TLD</label>
+                <div class="controls">
+                  <input type="text" id="iana-country-code-tld" name="iana_country_code_tld" value="">
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <fieldset>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Add Entry</button>
+            <a class="btn cancel-button" href="#">Cancel</a>
+          </div>
+          </fieldset>
+        </form>
+        </div>
+
+        <div class="pagination-container pull-right"></div>
+        <table class="table table-bordered" data-display="ajax-list" ajax-list-able="add,edit,delete,details" ajax-list-url="/country_info_*">
+          <thead>
+            <tr>
+              <th style="width: 30px;"></th>
+              <th sort-name="common_name"><a href="#">Name</a></th>
+              <th sort-name="type" style="width: 20%;"><a href="#">Type</a></th>
+              <th sort-name="capital" style="width: 20%;"><a href="#">Capital</a></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
       </div>
 
     </div> <!-- /container -->
@@ -50,6 +147,7 @@
     <script src="static/jquery-1.8.1.min.js"></script>
     <script src="static/jquery-ui-1.8.23.custom.min.js"></script>
     <script src="static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="static/jquery.form.js"></script>
     <script src="ajax-list/ajax-list.js"></script>
 
   </body>

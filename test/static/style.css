@@ -1,2 +1,4 @@
 body { padding-bottom: 20px; }
-.sub_type { color: #999; }
+.sub-type { color: #999; }
+.pagination { margin-top: 0; }
+.btn.add-item { margin-top: 10px; }

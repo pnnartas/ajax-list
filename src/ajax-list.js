@@ -141,7 +141,7 @@ function init_item_form() {
         if ($item_form.length > 0) {
             var $cancel_button = $item_form.find(".cancel-button");
             $cancel_button.on("click", function() {
-                slide_up_subcontainer();
+                $item_form.slideUp(100, hide_form);
                 return false;
             });
         }
@@ -155,10 +155,10 @@ function init_adding_items() {
     function init_add_button() {
         if (!opts.item_add_url) return;
         $add_button = $element.find(opts.add_button_selector);
-        if ($add_button.length === 0) {
-            $element.append(
-                '<a class="btn btn-primary add-item" href="#">' +
-                '<i class="icon-plus icon-white"></i> Add entry</a>');
+        if ($add_button.length === 0 && $item_form.length > 0) {
+            var button_html = '<a class="btn btn-primary add-item" href="#">' +
+                '<i class="icon-plus icon-white"></i> Add entry</a>';
+            $item_form_container.before(button_html);
             $add_button = $element.find(".add-item");
         }
         $add_button.click(function() {
@@ -453,7 +453,6 @@ function hide_form() {
     $item_form.hide();
     $item_form_container.append($item_form);
     $add_button.fadeIn(200);
-    $list.find(".subcontainer").remove();
 }
 
 function submit_form(data) {
@@ -479,8 +478,9 @@ function show_add_form() {
     remove_subcontainer();
 
     $item_form.find('.omit-on-edit').show();
+    $item_form.attr("action", opts.item_add_url);
 
-    $item_form.resetForm();
+    if (typeof $item_form.resetForm == "function") $item_form.resetForm();
     $item_form_container.append($item_form);
 
     $list.trigger('addFormShow');
@@ -504,6 +504,7 @@ function show_add_form() {
     // Rigging submit button
     $item_form.unbind('submit');
     $item_form.bind('submit', function() {
+        if (typeof $item_form.ajaxSubmit != "function") return true;
         submit_form();
         return false;
     });
@@ -522,6 +523,7 @@ function show_edit_form($item) {
     $list.trigger('editFormShow', [$item]);
 
     $item_form.find('.omitted_on_edit').hide();
+    $item_form.attr("action", opts.item_update_url);
 
     $item_form.resetForm();
     var $fields = $item_form.find("input, textarea, select");
@@ -546,6 +548,7 @@ function show_edit_form($item) {
     // Rigging submit button
     $item_form.unbind('submit');
     $item_form.bind('submit', function() {
+        if (typeof $item_form.ajaxSubmit != "function") return true;
         var d = {}; if ($item.attr("id")) d.id = $item.attr("id");
         submit_form(d);
         return false;
@@ -701,8 +704,7 @@ function insert_subcontainer_in_table($list, $after_item, opts) {
 function generate_default_pagination_links(current_page, pages_num,
         allow_show_all) {
 
-    var html = '<div class="pagination-container clearfix">';
-    html += '<div class="pagination"><ul class="pull-left">';
+    var html = '<div class="pagination"><ul class="pull-left">';
     html += '<li>';
     if (current_page !== 0) html += '<a href="#" class="prev-link">«</a>';
     else html += '<span class="prev-link inactive">«</span>';
@@ -717,7 +719,6 @@ function generate_default_pagination_links(current_page, pages_num,
     html += '</ul>';
     if (allow_show_all) html += '<div class="pull-left"><a href="#" ' +
         'class="show-all-link">Show All</a></div>';
-    html += '</div>';
     html += '</div>';
     return html;
 }

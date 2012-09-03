@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Ajax List Functionality Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="ajax-list/css/ajax-list.css" rel="stylesheet">
+    <link href="static/style.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <h1>AJAX List Functionality Demo</h1>
+
+      <div id="countries">
+        <form class="item-form form-horisontal" enctype="multipart/form-data" method="post">
+          <h3>Add Country</h3>
+          <fieldset>
+            <div class="control-group">
+              <label class="control-label" for="formal-name">Formal Name</label>
+              <div class="controls">
+                <input type="text" id="formal-name" name="formal_name" value="">
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Add Entry</button>
+              <a class="btn cancel-button" href="#">Cancel</a>
+            </div>
+          </fieldset>
+        </form>
+
+        <div class="pagination-container"></div>
+        <table class="table table-bordered" data-display="ajax-list" ajax-list-able="add,edit,delete,details" ajax-list-url="/country_info_*">
+            <thead>
+                <tr>
+                    <th style="width: 30px;"></th>
+                    <th sort-name="common_name"><a href="#">Name</a></th>
+                    <th sort-name="type" style="width: 20%;"><a href="#">Type</a></th>
+                    <th sort-name="capital" style="width: 20%;"><a href="#">Capital</a></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+      </div>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="static/jquery-1.8.1.min.js"></script>
+    <script src="static/jquery-ui-1.8.23.custom.min.js"></script>
+    <script src="static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="ajax-list/ajax-list.js"></script>
+
+  </body>
+</html>
