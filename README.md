@@ -15,7 +15,7 @@ Features
 * *Saving state in URL.*
   When list is modified by user, for example after user changes the sorting order of items, URL is changed too, to reflect the current state. Because of that, any state of the list can be accessed by saving direct link to the page. Individual items have URLs too.
 * *Smart defaults.*
-  In 90% cases there is zero JS needed inside HTML file. Just include the main JS file and add parameters to tags to use it.
+  In 90% cases there is zero JS code needed to use the AJAX List. Just include the main JS file and add parameters to HTML tags.
 * *Developed as a JQuery plugin.*
 * *Compatible with Twitter's Bootstrap.*
   LESS files are provided for hardcore Bootstrap users to compile as extension and be as DRY as possible. Everyone else can use stand-alone CSS to make lists look good from the start.
@@ -35,4 +35,13 @@ Pagination
 
 Sorting
 -------
+
+Item Detailed Information
+-------------------------
+
+Item Collection Manipulation
+----------------------------
+
+Options Reference
+-----------------
 
