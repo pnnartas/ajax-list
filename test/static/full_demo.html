@@ -28,10 +28,12 @@
       <h1>AJAX List Functionality Demo</h1>
 
       <div id="countries">
+          <div class="pagination-container"></div>
           <table class="table table-bordered" data-display="ajax-list" ajax-list-able="add,edit,delete,details" ajax-list-url="/country_info_*">
               <thead>
                   <tr>
-                      <th sort-name="name">Name</th>
+                      <th></th>
+                      <th sort-name="name details-link">Name</th>
                       <th sort-name="type" style="width: 20%">Type</th>
                       <th sort-name="capital" style="width: 20%">Capital</th>
                   </tr>

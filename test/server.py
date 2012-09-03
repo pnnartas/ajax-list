@@ -27,12 +27,30 @@ def get_list():
     sort = request.query.get("sort", "name")
     sort_dir = request.query.get("sort_dir")
 
-    start = 0
-    end = 10
-    res = c.execute("select rowid, * from countries limit %i, %i" % (start, end))
+    res = c.execute("select count(*) from countries")
+    count = res.fetchone()[0]
+
+    per_page = 50;
+    if page == "all":
+        start = 0
+        end = count
+    else:
+        start = per_page * int(page)
+        end = start + per_page
+
+    res = c.execute("select rowid, * from countries limit ?, ?",
+        (start, end))
     data = [data for data in res]
 
-    return template("country_list", data=data)
+    return template("country_list", data=data, count=count, per_page=per_page,
+        start=start)
+
+
+@route("/country_info_get_details")
+def get_country_details():
+    id = int(request.query.get("id"))
+    res = c.execute("select * from countries where rowid = ?", [id])
+    return template("country_details", data=res.fetchone())
 
 
 # @route("/get_countries")

@@ -20,7 +20,8 @@ this.ajaxList = {
 
 var $list = $(this);
 var $element = $(this).parent();
-var opts = $.extend($.fn.ajaxList.defaults, determine_attribute_options(),
+var opts = {};
+$.extend(opts, $.fn.ajaxList.defaults, determine_attribute_options(),
     options);
 var $items = null;
 var list_is_updating = false;
@@ -88,27 +89,6 @@ function init_pagination() {
     $pagination_container =
         $element.find(opts.pagination_container_selector);
     current_page = 0;
-    rig_pagination_links();
-
-    function rig_pagination_links() {
-        $pagination_container.find("a.prev-link").live("click", function() {
-            if (list_is_updating) return false;
-            update_list(current_page -= 1);
-            return false;
-        });
-        $pagination_container.find("a.next-link").live("click", function() {
-            if (list_is_updating) return false;
-            update_list(current_page += 1);
-            return false;
-        });
-        $pagination_container.find("a.show-all-link")
-            .live("click", function() {
-                if (list_is_updating) return false;
-                current_page = "all";
-                update_list(current_page);
-                return false;
-            });
-    }
 }
 
 function init_sorting() {
@@ -160,8 +140,8 @@ function init_item_form() {
     function rig_item_form_cancel_button() {
         if ($item_form.length > 0) {
             var $cancel_button = $item_form.find(".cancel-button");
-            $cancel_button.live("click", function() {
-                slide_up_form();
+            $cancel_button.on("click", function() {
+                slide_up_subcontainer();
                 return false;
             });
         }
@@ -227,11 +207,15 @@ function init_item_actions_tooltip() {
 
 // Basics /////////////////////////////////////////////////////////////////////
 
+function clear_list() {
+    $list.find(opts.content_selector + " > *").remove();
+}
+
 function update_list() {
     if (!opts.get_content_url) return;
 
     list_is_updating = true;
-    show_list_spinner();
+    show_container_spinner();
 
     // In case if the container is hidden by default (to not expose empty
     // table) we are showing it again.
@@ -241,10 +225,11 @@ function update_list() {
     if (current_page !== null) data.page = current_page;
     if (current_sort !== null) data.sort = current_sort;
     if (current_sort_dir !== null) data.sort_dir = current_sort_dir;
-    data = $.extend(opts.additional_request_data, data);
+    $.extend(data, opts.additional_request_data);
 
     $.get(opts.get_content_url, data, function(data, status) {
-        hide_list_spinner();
+        hide_container_spinner();
+        clear_list();
         list_is_updating = false;
 
         if (!data) {
@@ -253,7 +238,8 @@ function update_list() {
             return;
         } else {
             var $data = $(data);
-            var $meta = $data.filter("meta").remove();
+            var $meta = $data.filter("[meta-item]");
+            $data = $data.not("[meta-item]");
             $list.find(opts.content_selector).append($data);
 
             update_items_list();
@@ -297,7 +283,7 @@ function display_empty_content() {
 
 function show_list_spinner() {
     $list.hide();
-    $list.find(opts.content_selector + " > *").remove();
+    clear_list();
 
     var $spinner = $('<div class="spinner-container"><div class="spinner">' +
          '</div></div>');
@@ -344,27 +330,40 @@ function set_up_item_altering() {
 
 function set_up_pagination($meta) {
     $pagination_container.children().remove();
+    if (current_page == "all") return;
     var item_count = $meta.attr("item-count");
     if (!item_count) return;
     if (item_count === $items.length) return;
 
-    var pages_num = Math.ceil(item_count / opts.items_on_page);
+    var items_per_page = $meta.attr("items-per-page") ?
+        $meta.attr("items-per-page") : opts.items_per_page;
+    var pages_num = Math.ceil(item_count / items_per_page);
 
-    var html = '<div class="current-page">Page ' + (current_page + 1) + "/" +
-        pages_num + "</div>";
-    html += '<div class="page-navigation">';
-    if (current_page !== 0)
-        html += '<a href="#" class="prev-link">Previous</a>';
-    else html += '<span class="prev-link inactive">Previous</span>';
-    html += ' / ';
-    if (current_page !== pages_num - 1)
-        html += '<a href="#" class="next-link">Next</a>';
-    else html += '<span class="next-link inactive">Next</span>';
-    if (opts.allow_show_all)
-        html += '<a href="#" class="show-all-link">Show all</a>';
-    html += "</div>";
+    var html = opts.pagination_generator(current_page, pages_num,
+        opts.allow_show_all);
 
     $pagination_container.append(html);
+    rig_pagination_links();
+}
+
+function rig_pagination_links() {
+    $pagination_container.find("a.prev-link").on("click", function() {
+        if (list_is_updating) return false;
+        update_list(current_page -= 1);
+        return false;
+    });
+    $pagination_container.find("a.next-link").on("click", function() {
+        if (list_is_updating) return false;
+        update_list(current_page += 1);
+        return false;
+    });
+    $pagination_container.find("a.show-all-link")
+        .on("click", function() {
+            if (list_is_updating) return false;
+            current_page = "all";
+            update_list(current_page);
+            return false;
+        });
 }
 
 // Sorting ////////////////////////////////////////////////////////////////////
@@ -377,12 +376,41 @@ function update_current_sort_header() {
         marker + '</span>');
 }
 
+// Subcontainer ///////////////////////////////////////////////////////////////
+
+function show_subcontainer($item) {
+    var $subcontainer = opts.insert_subcontainer_function($list, $item, opts);
+    $subcontainer.find(".subcontent").hide();
+    //$subcontainer.find(".subcontent").slideDown();
+    return $subcontainer;
+}
+
+function get_item_subcontainer($item) {
+    return $item.next(".subcontainer");
+}
+
+function slide_up_subcontainer($item) {
+    var $subcontainer = $list.find(".subcontainer");
+    if ($item) $subcontainer = get_item_subcontainer($item);
+    $subcontainer.find(".subcontent").slideUp(function() {
+        remove_subcontainer($item);
+    });
+}
+
+function remove_subcontainer($item) {
+    var $subcontainer = $list.find(".subcontainer");
+    if ($item) $subcontainer = get_item_subcontainer($item);
+    if ($item_form.length > 0 && $subcontainer.has($item_form)) hide_form();
+    $subcontainer.remove();
+}
+
 // Item Details ///////////////////////////////////////////////////////////////
 
 function set_up_item_details_interface() {
     $items.find(opts.item_details_link_selector).click(function() {
-    var $item = $(this).closest(opts.item_selector);
-        if (get_item_details($item).length > 0) close_item_details($item);
+        var $item = $(this).closest(opts.item_selector);
+        if (get_item_subcontainer($item).length > 0)
+            slide_up_subcontainer($item);
         else open_item_details($item);
         return false;
     });
@@ -391,51 +419,35 @@ function set_up_item_details_interface() {
 function open_item_details($item) {
     if (!opts.get_item_details_url) return;
 
-    var $item_details = opts.insert_subcontainer_function($list, $item, opts);
+    var $item_details = show_subcontainer($item).find(".subcontent");
+    $item_details.addClass("item-details");
     show_item_details_spinner($item_details);
+    $item_details.slideDown(200);
 
     var data = { id: $item.attr(opts.item_id_attr_name) };
-    data = $.extend(opts.additional_request_data, data);
+    $.extend(data, opts.additional_request_data);
 
     $.get(opts.get_item_details_url, data, function(data) {
         hide_item_details_spinner($item_details);
 
-        var $info = $item_details.find(".info");
-        $info.hide();
-        $info.append(data);
-        $info.slideDown(200);
+        $item_details.append(data);
+        $item_details.slideDown(200);
 
         $list.trigger("itemDetailsShow");
-    });
+    }).error(check_request_error);
 }
-
-function close_item_details($item) {
-    var $item_details = get_item_details($item);
-    $item_details.find(".info").slideUp(200, function() {
-        $item_details.remove();
-    });
-}
-
-function get_item_details($item) { return $item.next(".details"); }
 
 function show_item_details_spinner($item_details) {
     var $spinner = $('<div class="spinner-container"><div class="spinner">' +
          '</div></div>');
-    $item_details.find(".info").append($spinner);
+    $item_details.append($spinner);
 }
 
 function hide_item_details_spinner($item_details) {
-    $item_details.find(".info .spinner-container")
-        .remove();
+    $item_details.find(".spinner-container").remove();
 }
 
 // Item Form //////////////////////////////////////////////////////////////////
-
-function slide_up_form() {
-    $item_form.slideUp(200, function() {
-        hide_form();
-    });
-}
 
 function hide_form() {
     $item_form.hide();
@@ -446,14 +458,15 @@ function hide_form() {
 
 function submit_form(data) {
     show_container_spinner();
+    $.extend(data, opts.additional_request_data);
     $item_form.ajaxSubmit({
         url: opts.item_add_url,
-        data: $.extend(opts.additional_request_data, data),
+        data: data,
         success: function(response) {
             if (response) show_error(response);
             $list.trigger("itemFormSubmit");
             update_list();
-            hide_form();
+            remove_subcontainer();
         },
         error: function() {
             show_error("Form submission error.");
@@ -463,14 +476,14 @@ function submit_form(data) {
 // Adding Items ///////////////////////////////////////////////////////////////
 
 function show_add_form() {
-    hide_form();
+    remove_subcontainer();
 
     $item_form.find('.omit-on-edit').show();
 
     $item_form.resetForm();
     $item_form_container.append($item_form);
 
-    $list.trigger('addFormShow', [$item]);
+    $list.trigger('addFormShow');
 
     // Invoking form fields change event
     var $fields = $item_form.find("input, textarea, select");
@@ -501,10 +514,9 @@ function show_add_form() {
 function edit_hovered_item() { show_edit_form($hovered_item); }
 
 function show_edit_form($item) {
-    hide_form();
+    remove_subcontainer();
 
-    var $edit_form_container =
-        opts.insert_subcontainer_function($list, $hovered_item, opts);
+    var $edit_form_container = show_subcontainer($item);
     $edit_form_container.find(".subcontent").append($item_form);
 
     $list.trigger('editFormShow', [$item]);
@@ -513,7 +525,7 @@ function show_edit_form($item) {
 
     $item_form.resetForm();
     var $fields = $item_form.find("input, textarea, select");
-    var data = deserialize($item.attr("data-item"));
+    var data = deserialize($item.attr("item-data"));
     for (var k in data) {
         if (data.hasOwnProperty(k)) {
             $fields.filter("[name=" + k + "]").val(data[k]);
@@ -534,7 +546,7 @@ function show_edit_form($item) {
     // Rigging submit button
     $item_form.unbind('submit');
     $item_form.bind('submit', function() {
-        var d = {}; if (data.id) d.id = data.id;
+        var d = {}; if ($item.attr("id")) d.id = $item.attr("id");
         submit_form(d);
         return false;
     });
@@ -565,8 +577,8 @@ function hide_item_action() {
 
 function delete_hovered_item() {
     if (!window.confirm("Do you want to delete this?")) return false;
-    var data = deserialize($hovered_item.attr("data-item"));
-    data = $.extend(opts.additional_request_data, data);
+    var data = deserialize($hovered_item.attr("item-data"));
+    $.extend(data, opts.additional_request_data);
     $.post(opts.item_delete_url, data, function(response) {
         if (response) show_error(response);
     }).error(check_request_error);
@@ -600,16 +612,18 @@ $.fn.ajaxList.defaults = {
     // If the even/odd altering classes should be assigned to the items.
     set_item_altering: true,
     // Selector for finding link that opens item details
-    item_details_link_selector: ".name",
+    item_details_link_selector: ".details-link",
     // URL for retrieving HTML of item details. Required.
     get_item_details_url: null,
 
     // Selector for finding pagination block container
-    pagination_container_selector: ".pagination",
+    pagination_container_selector: ".pagination-container",
     // Number of items on one page
-    items_on_page: 50,
+    items_per_page: 50,
     // Should we display "Show all" link in pagination block.
     allow_show_all: true,
+    // Function that will generate pagination links
+    pagination_generator: generate_default_pagination_links,
 
     // Default sorting. Format: "field_name asc/desc"
     default_sorting: "",
@@ -678,6 +692,34 @@ function insert_subcontainer_in_table($list, $after_item, opts) {
         '</td></tr>');
     var $subcontainer = $after_item.next();
     return $subcontainer;
+}
+
+/*****************************************************************************
+ Generate Pagination Methods
+ *****************************************************************************/
+
+function generate_default_pagination_links(current_page, pages_num,
+        allow_show_all) {
+
+    var html = '<div class="pagination-container clearfix">';
+    html += '<div class="pagination"><ul class="pull-left">';
+    html += '<li>';
+    if (current_page !== 0) html += '<a href="#" class="prev-link">«</a>';
+    else html += '<span class="prev-link inactive">«</span>';
+    html += '</li>';
+    html += '<li><span>Page ' + (current_page + 1) + '/' + pages_num +
+        '</span></li>';
+    html += '<li>';
+    if (current_page !== pages_num - 1)
+        html += '<a href="#" class="next-link">»</a>';
+    else html += '<span class="next-link inactive">»</span>';
+    html += '</li>';
+    html += '</ul>';
+    if (allow_show_all) html += '<div class="pull-left"><a href="#" ' +
+        'class="show-all-link">Show All</a></div>';
+    html += '</div>';
+    html += '</div>';
+    return html;
 }
 
 /*****************************************************************************

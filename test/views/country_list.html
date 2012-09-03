@@ -1,7 +1,11 @@
+<tr meta-item="meta-item" item-count="{{count}}" items-per-page="{{per_page}}">
+%i = start
 %for d in data:
-<tr class="item" data-item="{{d["rowid"]}}">
+%i += 1
+<tr class="item" item-id="{{d["rowid"]}}" item-data="">
+    <td>{{i}}</td>
     <td>
-        <div><a href="#" class="name">{{d["common_name"]}}</a></div>
+        <div><a href="#" class="name details-link">{{d["common_name"]}}</a></div>
         <div class="formal_name">{{d["formal_name"]}}</div>
     </td>
     <td>

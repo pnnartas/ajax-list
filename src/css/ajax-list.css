@@ -6,7 +6,7 @@
   width: 24px;
   height: 24px;
   margin: 20px auto;
-  background: url("./static/spinner.gif") top left no-repeat;
+  background: url("/static/spinner.gif") top left no-repeat;
 }
 .action-tooltip {
   white-space: nowrap;
@@ -50,4 +50,8 @@ table tr.subcontainer form .form-actions {
 }
 table tr.subcontainer:hover td {
   background-color: transparent;
+}
+.pagination .show-all-link {
+  border-color: transparent;
+  margin-left: 20px;
 }
