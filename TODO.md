@@ -1,10 +1,14 @@
-* Make table loader occupy whole table (so the size of the table won't change
-  while loading)
-* Add ability to override pagination generation with JS function or
-  server-side return
+1.0.9:
+* Remove JQuery UI dependency
+* URL state saving/loading
+* List test/functionality
+* Div list test/functionality
+* AJAX List inside AJAX List test/functionality
+* Documentation
+* Code comments
+* Live demos
+
+Future:
 * Multilevel sorting
-* Sorting drop-down
-* Tests:
-    * Add various loaders on transparent BG
-    * Add various predefined table stylings
-    * Add example with smart list inside another smart list
+* Exporting to CSV
+* More complicated pagination
