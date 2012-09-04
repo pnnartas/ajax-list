@@ -525,7 +525,7 @@ function show_edit_form($item) {
     $item_form.find('.omitted_on_edit').hide();
     $item_form.attr("action", opts.item_update_url);
 
-    $item_form.resetForm();
+    if (typeof $item_form.resetForm == "function") $item_form.resetForm();
     var $fields = $item_form.find("input, textarea, select");
     var data = deserialize($item.attr("item-data"));
     for (var k in data) {
@@ -543,7 +543,8 @@ function show_edit_form($item) {
         $item_form.find("button[type=submit]")
             .text(opts.item_edit_submit_button_text);
 
-    $item_form.slideDown();
+    $item_form.show();
+    $edit_form_container.find(".subcontent").slideDown();
 
     // Rigging submit button
     $item_form.unbind('submit');
