@@ -45,6 +45,9 @@ table tr.subcontainer td {
 table tr.subcontainer .subcontent {
   padding: 20px;
 }
+table tr.subcontainer .subcontent.form {
+  padding: 0;
+}
 table tr.subcontainer form {
   margin: 0;
 }

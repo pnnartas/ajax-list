@@ -169,10 +169,10 @@ function init_adding_items() {
 
     function init_item_adding_headers_from_form() {
         if ($item_form.length > 0) {
-            if (opts.item_add_header_text !== null)
+            if (opts.item_add_header_text === null)
                 opts.item_add_header_text =
                     $item_form.find(opts.item_form_header_selector).text();
-            if (opts.item_add_submit_button_text !== null)
+            if (opts.item_add_submit_button_text === null)
                 opts.item_add_submit_button_text =
                     $item_form.find("button[type=submit]").text();
         }
@@ -400,7 +400,8 @@ function slide_up_subcontainer($item) {
 function remove_subcontainer($item) {
     var $subcontainer = $list.find(".subcontainer");
     if ($item) $subcontainer = get_item_subcontainer($item);
-    if ($item_form.length > 0 && $subcontainer.has($item_form)) hide_form();
+    if ($item_form.length > 0 && $subcontainer.has($item_form).length > 0)
+        hide_form();
     $subcontainer.remove();
 }
 
@@ -453,6 +454,7 @@ function hide_form() {
     $item_form.hide();
     $item_form_container.append($item_form);
     $add_button.fadeIn(200);
+    remove_subcontainer();
 }
 
 function submit_form(data) {
@@ -518,7 +520,9 @@ function show_edit_form($item) {
     remove_subcontainer();
 
     var $edit_form_container = show_subcontainer($item);
-    $edit_form_container.find(".subcontent").append($item_form);
+    var $subcontent = $edit_form_container.find(".subcontent");
+    $subcontent.addClass("form");
+    $subcontent.append($item_form);
 
     $list.trigger('editFormShow', [$item]);
 
