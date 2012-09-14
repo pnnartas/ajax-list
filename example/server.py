@@ -64,7 +64,7 @@ def get_country_details():
 @post("/country_info_save")
 def save_country_info():
 
-    id = int(request.query.get("id", 0))
+    id = int(request.forms.get("id", 0))
     data = [ request.forms.get(f, None).decode("utf-8")
         for f in country_fields ]
 
@@ -85,9 +85,9 @@ def save_country_info():
                 itu_t_telephone_code = ?,
                 iso3166_1_2letter_code = ?,
                 iso3166_1_3letter_code = ?,
-                iso3166_1_number = ?,
+                iso_3166_1_number = ?,
                 iana_country_code_tld = ?
-            where id = %i""" % (id), data)
+            where rowid = %i""" % (id), data)
 
 # @route("/get_countries")
 # def get_countries():

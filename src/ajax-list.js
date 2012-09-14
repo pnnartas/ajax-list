@@ -554,7 +554,7 @@ function show_edit_form($item) {
     $item_form.unbind('submit');
     $item_form.bind('submit', function() {
         if (typeof $item_form.ajaxSubmit != "function") return true;
-        var d = {}; if ($item.attr("id")) d.id = $item.attr("id");
+        var d = {}; if ($item.attr("item-id")) d.id = $item.attr("item-id");
         submit_form(d);
         return false;
     });
