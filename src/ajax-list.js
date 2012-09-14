@@ -226,6 +226,7 @@ function update_list() {
     if (!opts.get_content_url) return;
 
     list_is_updating = true;
+    hide_form();
     show_container_spinner();
 
     // In case if the container is hidden by default (to not expose empty
