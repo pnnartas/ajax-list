@@ -88,4 +88,9 @@ def save_country_info():
                 iana_country_code_tld = ?
             where rowid = %i""" % (id), data)
 
+@post("/country_info_delete")
+def delete_country_info():
+    id = int(request.forms.get("id"))
+    c.execute("delete from countries where rowid = ?", (id, ))
+
 run(host="0.0.0.0", port=8000)

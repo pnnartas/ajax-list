@@ -604,11 +604,17 @@ function hide_item_action() {
 
 function delete_hovered_item() {
     if (!window.confirm("Do you want to delete this?")) return false;
+
     var data = deserialize($hovered_item.attr("item-data"));
+    if (data.hasOwnProperty("id")) data = { "id": data[id] };
+    else data = { "id": $hovered_item.attr("item-id") };
     $.extend(data, opts.additional_request_data);
+
     $.post(opts.item_delete_url, data, function(response) {
         if (response) show_error(response);
     }).error(check_request_error);
+
+    remove_subcontainer($hovered_item);
     $hovered_item.fadeOut(200, function() {
         $(this).remove();
         update_items_list();
@@ -682,7 +688,7 @@ $.fn.ajaxList.defaults = {
     additional_request_data: {},
 
     // Selector for finding list items
-    item_selector: "tr",
+    item_selector: "tr.item",
     // Attribute name that contains item ID.
     item_id_attr_name: "item-id",
     // If the even/odd altering classes should be assigned to the items.
