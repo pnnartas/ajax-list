@@ -1,10 +1,15 @@
 import sqlite3
+import urllib
 from bottle import route, run, static_file, template, request, post
 
 conn = sqlite3.connect("countries.db")
 conn.row_factory = sqlite3.Row
 c = conn.cursor()
 
+country_fields = [ "common_name", "formal_name", "type", "sub_type",
+    "sovereignty", "capital", "iso4217_currency_code", "iso4217_currency_name",
+    "itu_t_telephone_code", "iso3166_1_2letter_code", "iso3166_1_3letter_code",
+    "iso_3166_1_number", "iana_country_code_tld" ]
 
 @route("/static/<path:path>")
 def js(path):
@@ -40,7 +45,10 @@ def get_list():
 
     res = c.execute("select rowid, * from countries order by %s %s limit ?, ?"
         % (sort, sort_dir), (start, end))
-    data = [row for row in res]
+    data = [{f: unicode(row[f]).encode("utf-8")
+        for f in country_fields + ["rowid"]} for row in res]
+    for d in data:
+        d["item_data"] = urllib.urlencode(d.items()).replace("+", "%20")
 
     return template("country_list", data=data, count=count, per_page=per_page,
         start=start)
@@ -57,26 +65,14 @@ def get_country_details():
 def save_country_info():
 
     id = int(request.query.get("id", 0))
-    data = [
-        request.forms.get("common_name", None),
-        request.forms.get("formal_name", None),
-        request.forms.get("type", None),
-        request.forms.get("sub_type", None),
-        request.forms.get("sovereignty", None),
-        request.forms.get("capital", None),
-        request.forms.get("iso4217_currency_code", None),
-        request.forms.get("iso4217_currency_name", None),
-        request.forms.get("itu_t_telephone_code", None),
-        request.forms.get("iso3166_1_2letter_code", None),
-        request.forms.get("iso3166_1_3letter_code", None),
-        request.forms.get("iso3166_1_number", None),
-        request.forms.get("iana_country_code_tld", None)]
+    data = [ request.forms.get(f, None).decode("utf-8")
+        for f in country_fields ]
 
     if id == 0:
-        c.execute("insert into countries values " +
-            " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", data)
+        c.execute(u"insert into countries values " +
+            u" (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", data)
     else:
-        c.execute("""
+        c.execute(u"""
             update countries set
                 common_name = ?,
                 formal_name = ?,
@@ -104,7 +100,7 @@ def save_country_info():
 
 #     sort_i = {"name": 0, "type": 2, "capital": 5}.get(sort, "name")
 #     data = sorted(data, key=lambda s: s[sort_i],
-#         reverse=sort_dir == "desc" and True or False)
+#         reverse=sort_dir == "desc" and true or false)
 
 #     if page != "all":
 #         first_item = int(page) * 50
