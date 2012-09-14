@@ -576,7 +576,7 @@ function show_edit_form($item) {
         return false;
     });
 
-    $("body").animate({ scrollTop: $item.offset().top }, 200);
+    $("body").animate({ scrollTop: $item.offset().top - 10 }, 200);
 }
 
 // Item Actions ///////////////////////////////////////////////////////////////
@@ -586,8 +586,19 @@ function set_up_item_actions_tooltip() {
     $items.hover(function() {
         $hovered_item = $(this);
         $item_actions.show();
-        $item_actions.position({my: "left", at: "right", of: $hovered_item,
-            collision: "fit"});
+        // if (false && typeof $item_actions.position == "function") {
+        //     $item_actions.position({my: "left", at: "right",
+        //         of: $hovered_item, collision: "fit"});
+        // } else {
+        var left = $hovered_item.offset().left +
+            $hovered_item.outerWidth();
+        if (left + $item_actions.outerWidth() > $(window).width() - 10)
+            left = $(window).width() - $item_actions.outerWidth() - 10;
+        var top = $hovered_item.offset().top +
+            $hovered_item.outerHeight() / 2 -
+            $item_actions.outerHeight() / 2;
+        $item_actions.offset({left: left, top: top});
+        // }
     }, function(e) {
         if ($(e.toElement).hasClass("action-tooltip")) return;
         hide_item_action();
