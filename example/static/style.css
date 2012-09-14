@@ -1,6 +1,7 @@
 body { padding-bottom: 20px; }
 .sub-type { color: #999; }
 .pagination { margin-top: 0; }
+.add-item-block { margin-bottom: 20px; }
 .btn.add-item { margin-top: 10px; }
 fieldset { float: left; }
 fieldset.form-actions { float: none; margin-top: 0px; }
