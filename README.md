@@ -1,13 +1,15 @@
 AJAX List
 =========
 
-Brings AJAX to your lists and tables. Paginate, sort and interact with the collection of items without reloading the page.
+Brings AJAX to your lists and tables. Paginate, sort and interact with collection of items without reloading the page.
 
 Features
 --------
 
 * *Easy list pagination and sorting.*
+  AJAX List will take the data returned from server and display pagination and sorting interface for it. It will send additional requests to the server depending on user actions.
 * *Manipulating items: adding, deleting and editing.*
+  AJAX List takes pre-designed form for entering item information and automatically uses it for adding and editing items, right in the list. It sends the form to server after user submits it and updates the list content accordingly.
 * *Displaing additional information by click.*
   For large lists, it is not very practical to show every detail about every item right from the page loading. With AJAX List, detailed information can be requested and displayed after click on the item.
 * *Row alternation.*
@@ -28,7 +30,7 @@ Demo & Examples
 Installation
 ------------
 
-Basic Usage
+Quick Start
 -----------
 
 Pagination
@@ -37,8 +39,8 @@ Pagination
 Sorting
 -------
 
-Item Detailed Information
--------------------------
+Detailed Information About Item
+-------------------------------
 
 Adding Items
 ------------
