@@ -574,6 +574,8 @@ function show_edit_form($item) {
         submit_form(d);
         return false;
     });
+
+    $("body").animate({ scrollTop: $item.offset().top }, 200);
 }
 
 // Item Actions ///////////////////////////////////////////////////////////////
@@ -619,7 +621,6 @@ function delete_hovered_item() {
 function read_url() {
 
     var url = window.location.hash.substring(1);
-    debugger
     if (url == last_url) return;
     last_url = url;
 

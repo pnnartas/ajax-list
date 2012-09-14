@@ -38,13 +38,12 @@ def get_list():
     per_page = 50
     if page == "all":
         start = 0
-        end = count
+        per_page = 10000
     else:
         start = per_page * int(page)
-        end = start + per_page
 
-    res = c.execute("select rowid, * from countries order by %s %s limit ?, ?"
-        % (sort, sort_dir), (start, end))
+    res = c.execute(("select rowid, * from countries order by %s %s " +
+        "limit ?, ?") % (sort, sort_dir), (start, per_page))
     data = [{f: unicode(row[f]).encode("utf-8")
         for f in country_fields + ["rowid"]} for row in res]
     for d in data:
