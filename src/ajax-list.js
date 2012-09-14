@@ -18,6 +18,7 @@ this.ajaxList = {
  Initialization
  *****************************************************************************/
 
+var list_id = "ajax-list";
 var $list = $(this);
 var $element = $(this).parent();
 var opts = {};
@@ -37,7 +38,9 @@ var $add_button;
 init_adding_items();
 var $item_actions, $hovered_item;
 init_item_actions_tooltip();
-update_list();
+var last_url;
+init_deep_linking();
+read_url();
 
 /*****************************************************************************
  Private API
@@ -47,6 +50,8 @@ update_list();
 
 function determine_attribute_options() {
     var attr_opts = {};
+
+    if ($list.attr("id")) list_id = $list.attr("id");
 
     // abilities are stored in ajax-list-able attribute
     var abilities = $list.attr("ajax-list-able");
@@ -116,7 +121,7 @@ function init_sorting() {
                     }
                     update_list();
                     update_current_sort_header();
-                    return;
+                    return false;
                 });
             }
         });
@@ -205,6 +210,12 @@ function init_item_actions_tooltip() {
     }
 }
 
+function init_deep_linking() {
+    $(window).on('hashchange', function() {
+        read_url();
+    })
+}
+
 // Basics /////////////////////////////////////////////////////////////////////
 
 function clear_list() {
@@ -252,6 +263,9 @@ function update_list() {
 
         $list.trigger("ajaxListUpdate");
     }).error(check_request_error);
+
+    update_current_sort_header();
+    update_url();
 }
 
 function update_items_list() {
@@ -554,7 +568,9 @@ function show_edit_form($item) {
     $item_form.unbind('submit');
     $item_form.bind('submit', function() {
         if (typeof $item_form.ajaxSubmit != "function") return true;
-        var d = {}; if ($item.attr("item-id")) d.id = $item.attr("item-id");
+        var d = {};
+        if ($item.attr("item-id")) d.id = $item.attr("item-id");
+        if (data.hasOwnProperty("id")) d.id = data["id"];
         submit_form(d);
         return false;
     });
@@ -596,6 +612,56 @@ function delete_hovered_item() {
         set_up_item_altering();
     });
     hide_item_action();
+}
+
+// Deep Linking ///////////////////////////////////////////////////////////////
+
+function read_url() {
+
+    var url = window.location.hash.substring(1);
+    debugger
+    if (url == last_url) return;
+    last_url = url;
+
+    // parsing url
+    url = url.split("&");
+    var params = {};
+    for (var u in url) {
+        u = url[u].split("=");
+        if (u.length > 0) params[u[0]] = u[1];
+    }
+
+    var id = list_id;
+
+    if (params.hasOwnProperty(id + "-page")) {
+        current_page = params[id + "-page"];
+        if (current_page != "all") current_page = parseInt(current_page) - 1;
+    }
+
+    if (params.hasOwnProperty(id + "-sort")) {
+        var s = params[id + "-sort"];
+        s = s.split(".");
+        current_sort = s[0];
+        current_sort_dir = s[1];
+    }
+
+    update_list();
+}
+
+function update_url() {
+    var id = list_id;
+    var url = [];
+
+    if (current_page) {
+        if (current_page != "all")
+            url.push(id + "-page=" + (current_page + 1));
+        else url.push(id + "-page=" + current_page);
+    }
+
+    if (current_sort)
+        url.push(id + "-sort=" + current_sort + "." + current_sort_dir);
+
+    window.location.hash = url.join("&");
 }
 
 };
