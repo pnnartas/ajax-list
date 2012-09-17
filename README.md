@@ -6,7 +6,7 @@ Brings AJAX to your lists and tables. Paginate, sort and interact with collectio
 Features
 --------
 
-* **Easy list pagination and sorting.*
+* **Easy list pagination and sorting.**
   AJAX List will take the data returned from server and display pagination and sorting interface for it. It will send additional requests to the server depending on user actions.
 * **Manipulating items: adding, deleting and editing.**
   AJAX List takes pre-designed form for entering item information and automatically uses it for adding and editing items, right in the list. It sends the form to server after user submits it and updates the list content accordingly.
@@ -28,12 +28,42 @@ Features
 Demo & Examples
 ---------------
 
-On-line examples will be available after version 1.0.0 release. For now, you can see them on your local computer.
+On-line examples will be available after version 1.0.0 release. For now you can run them on your local computer.
 
-To do this, clone the repository, go into directory `example` in it, and run `python server.py` (assuming you have Python 2.7 installed). Navigate your browser to http://localhost:8000/ to see the list of available examples.
+To do this, clone the repository, go into directory `example` inside, and run `python server.py` (assuming you have Python 2.7 installed). Navigate your browser to [http://localhost:8000/](http://localhost:8000/) to see the list of available examples.
+
+Example script has been tested under Mac OS and Linux, but haven't been tested under Windows.
 
 Installation
 ------------
+
+Main file to include in your project is [ajax-list.js](https://raw.github.com/mitskevich/ajax-list/master/src/ajax-list.js). Download it and save in your project static files.
+
+Include it as any other JavaScript file:
+
+```html
+<script src="ajax-list/ajax-list.js"></script>
+```
+
+JavaScript file is not minified, you can [minify it yourself](http://jscompress.com/) if you need it.
+
+Now for the CSS: there is no CSS embedded in the main JavaScript file, so if you want, you may write all styles from scratch.
+
+Instead I recommend using [Twitter's Bootstrap](http://twitter.github.com/bootstrap/) for basic styling, it makes your tables and lists look nice by default. AJAX Table was build with Bootstrap in mind, but don't rely on it, skip few paragraphs if you don't use Bootstrap.
+
+**If you are using Bootstrap**, you may want to include [ajax-list-bootstrap.css](https://raw.github.com/mitskevich/ajax-list/master/src/css/ajax-list-bootstrap.css) in your HTML:
+
+```html
+link href="ajax-list/css/ajax-list-bootstrap.css" rel="stylesheet">
+```
+
+It contains different stylings, that are needed for AJAX List, like tooltip with item manipulation icons, form container, sorting direction markers, etc.
+
+Don't forget to review CSS and change URL of your spinner (loading) animation. By default it's `/static/spinner.gif`
+
+**If you are not using Bootstrap**, you can include [ajax-list.css](https://raw.github.com/mitskevich/ajax-list/master/src/css/ajax-list.css) similarily. It contains all that the previous one has, and also some basic lists & tables stylings. Again, don't forget to change the spinner URL.
+
+Last option is to use LESS files instead of CSS. See the section below for further details.
 
 Quick Start
 -----------
@@ -61,6 +91,9 @@ Row Alteration
 
 Options Reference
 -----------------
+
+Using LESS for Bootstrap
+------------------------
 
 Copyright and License
 ---------------------
