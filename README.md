@@ -130,7 +130,7 @@ Let's assume, we removed the list content and created page navigation container,
 <ul data-display="ajax-list" ajax-list-url="/todo_get_list"></ul>
 ```
 
-When site will load, AJAX List will take this `<ul>` and automatically request content of the first page from the `/todo_get_list` URL. While it will be loading, spinner animation will be shown (assuming that you have correctly provided its URL in CSS) and when content will be ready, it will be placed right into `<ul>` tag (replacing everything in it), with page navigation on the top in its own container.
+*When the site will load, AJAX List will take this `<ul>` and automatically request content of the first page from the `/todo_get_list` URL. While it will be loading, spinner animation will be shown (assuming that you have correctly provided its URL in CSS) and when content will be ready, it will be placed right into `<ul>` tag (replacing everything in it), with page navigation on the top in its own container.*
 
 If you need more information, consult reference topics:
 * [List Initalization](#list-initialization), on what other options you have to create the AJAX List instance and details about how it happens.
