@@ -38,9 +38,8 @@ var $add_button;
 init_adding_items();
 var $item_actions, $hovered_item;
 init_item_actions_tooltip();
-var last_url;
 init_deep_linking();
-read_url();
+read_url(true);
 
 /*****************************************************************************
  Private API
@@ -634,11 +633,9 @@ function delete_hovered_item() {
 
 // Deep Linking ///////////////////////////////////////////////////////////////
 
-function read_url() {
+function read_url(initial) {
 
     var url = window.location.hash.substring(1);
-    if (url == last_url) return;
-    last_url = url;
 
     // parsing url
     url = url.split("&");
@@ -649,20 +646,28 @@ function read_url() {
     }
 
     var id = list_id;
+    var should_update = false;
 
     if (params.hasOwnProperty(id + "-page")) {
-        current_page = params[id + "-page"];
-        if (current_page != "all") current_page = parseInt(current_page) - 1;
+        var new_page = params[id + "-page"];
+        if (new_page != "all") new_page = parseInt(new_page) - 1;
+        if (current_page != new_page) {
+            current_page = new_page;
+            should_update = true;
+        }
     }
 
     if (params.hasOwnProperty(id + "-sort")) {
         var s = params[id + "-sort"];
         s = s.split(".");
-        current_sort = s[0];
-        current_sort_dir = s[1];
+        if (current_sort != s[0] || current_sort_dir != s[1]) {
+            current_sort = s[0];
+            current_sort_dir = s[1];
+            should_update = true;
+        }
     }
 
-    update_list();
+    if (should_update || initial) update_list();
 }
 
 function update_url() {
