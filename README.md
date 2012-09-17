@@ -79,7 +79,7 @@ This is a quick walkthrough on how to work with AJAX List, for detailed referenc
 Let's assume we have following list:
 
 ```html
-<h1>List of Items</h1>
+<h1>My TODO List:</h1>
 <ul>
     <li>Item</li>
     <li>Some other item</li>
@@ -95,10 +95,10 @@ With AJAX List you can do that (and much more) without JavaScript knowledge at a
 
 First, [include AJAX List's JavaScript file in your project](#installation) if it's not there.
 
-Now add those two parameters to the `<ul>` tag: `data-display="ajax-list"` and `ajax-list-url="/get_list_content"`. Like this:
+Now add those two parameters to the `<ul>` tag: `data-display="ajax-list"` and `ajax-list-url="/todo_get_list"`. Like this:
 
 ```html
-<ul data-display="ajax-list" ajax-list-url="/get_list_content">
+<ul data-display="ajax-list" ajax-list-url="/todo_get_list">
 ```
 
 `data-display` is simply telling AJAX List to treat this list as an AJAX List. `ajax-list-url` is specifying URL that will be used to retrieve a requested page of content.
@@ -125,12 +125,12 @@ Also, now you can remove content of your list from HTML, because AJAX List will 
 Let's assume, we removed the list content and created page navigation container, so our list is looking like that now:
 
 ```html
-<h1>List of Items</h1>
+<h1>My TODO List:</h1>
 <div class="pagination-container"></div>
-<ul data-display="ajax-list" ajax-list-url="/get_list_content"></ul>
+<ul data-display="ajax-list" ajax-list-url="/todo_get_list"></ul>
 ```
 
-After the site will load, AJAX List will take this `<ul>` and automatically request content for the first page from the `/get_list_content` URL. While it will be loading, spinner animation will be shown (assuming that you have correctly provided its URL in CSS) and when content will be ready, it will be placed right into `<ul>` tag (replacing everything in it), with page navigation on the top in its own container.
+After the site will load, AJAX List will take this `<ul>` and automatically request content of the first page from the `/todo_get_list` URL. While it will be loading, spinner animation will be shown (assuming that you have correctly provided its URL in CSS) and when content will be ready, it will be placed right into `<ul>` tag (replacing everything in it), with page navigation on the top in its own container.
 
 * * *
 
