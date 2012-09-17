@@ -159,7 +159,7 @@ Row Alteration
 --------------
 
 Tweaking With JS
-================
+----------------
 
 Options Reference
 -----------------
