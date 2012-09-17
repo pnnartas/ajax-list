@@ -42,10 +42,12 @@ Main file to include in your project is [ajax-list.js](https://raw.github.com/mi
 Include it as any other JavaScript file:
 
 ```html
-<script src="path-to-static-files/ajax-list/ajax-list.js"></script>
+<script src="/path-to-static-files/ajax-list/ajax-list.js"></script>
 ```
 
 JavaScript file is not minified, you can [minify it yourself](http://jscompress.com/) if you need it.
+
+* * *
 
 Now for the CSS: there is no CSS embedded in the main JavaScript file, so if you want, you may write all styles from scratch.
 
@@ -54,7 +56,7 @@ Instead I recommend using [Twitter's Bootstrap](http://twitter.github.com/bootst
 **If you are using Bootstrap**, you may want to include [ajax-list-bootstrap.css](https://raw.github.com/mitskevich/ajax-list/master/src/css/ajax-list-bootstrap.css) in your HTML:
 
 ```html
-<link href="path-to-static-files/ajax-list/ajax-list-bootstrap.css" rel="stylesheet">
+<link href="/path-to-static-files/ajax-list/ajax-list-bootstrap.css" rel="stylesheet">
 ```
 
 It contains different stylings, that are needed for AJAX List, like tooltip with item manipulation icons, form container, sorting direction markers, etc.
@@ -67,6 +69,18 @@ Last option is to use LESS files instead of CSS. See [the section below](#using-
 
 Quick Start
 -----------
+
+Let's assume you have following list:
+
+```html
+<ul>
+    <li>Item</li>
+    <li>Some other item</li>
+    ...A zillion other items...
+</ul>
+```
+
+
 
 Pagination
 ----------
