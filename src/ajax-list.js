@@ -20,14 +20,14 @@ this.ajaxList = {
 
 var list_id = "ajax-list";
 var $list = $(this);
-var $element = $(this).parent();
+var $parent = $(this).parent();
 var opts = {};
 $.extend(opts, $.fn.ajaxList.defaults, determine_attribute_options(),
     options);
 var $items = null;
 var list_is_updating = false;
 
-init_element();
+init_parent();
 var $pagination_container, current_page;
 init_pagination();
 var current_sort, current_sort_dir;
@@ -82,17 +82,20 @@ function determine_attribute_options() {
     return attr_opts;
 }
 
-function init_element() {
+function init_parent() {
+    // In case if the container is hidden by default (to not expose empty
+    // table) we are showing it again.
+    $parent.removeClass("hidden");
+
     // We have to set up a position of our container to relative, so the item
     // actions tooltip would be positioned properly.
-    if ($element.css("position") != "absolute")
-        $element.css("position", "relative");
+    if ($parent.css("position") != "absolute")
+        $parent.css("position", "relative");
 }
 
 function init_pagination() {
     if (!opts.pagination_container_selector) return;
-    $pagination_container =
-        $element.find(opts.pagination_container_selector);
+    $pagination_container = $parent.find(opts.pagination_container_selector);
     current_page = 0;
 }
 
@@ -129,7 +132,7 @@ function init_sorting() {
 }
 
 function init_item_form() {
-    $item_form = $element.find(opts.item_form_selector);
+    $item_form = $parent.find(opts.item_form_selector);
     put_item_form_in_container();
     rig_item_form_cancel_button();
 
@@ -159,12 +162,12 @@ function init_adding_items() {
 
     function init_add_button() {
         if (!opts.item_add_url) return;
-        $add_button = $element.find(opts.add_button_selector);
+        $add_button = $parent.find(opts.add_button_selector);
         if ($add_button.length === 0 && $item_form.length > 0) {
             var button_html = '<a class="btn btn-primary add-item" href="#">' +
                 '<i class="icon-plus icon-white"></i> Add entry</a>';
             $item_form_container.before(button_html);
-            $add_button = $element.find(".add-item");
+            $add_button = $parent.find(".add-item");
         }
         $add_button.click(function() {
             show_add_form();
@@ -186,8 +189,8 @@ function init_adding_items() {
 
 function init_item_actions_tooltip() {
     if (opts.item_update_url || opts.item_delete_url) {
-        $element.append('<div class="action-tooltip"></div>');
-        $item_actions = $element.find(".action-tooltip");
+        $parent.append('<div class="action-tooltip"></div>');
+        $item_actions = $parent.find(".action-tooltip");
         if (opts.item_update_url) {
             $item_actions.append(
                 '<a class="edit-item" href="#">' +
@@ -228,10 +231,6 @@ function update_list() {
     list_is_updating = true;
     hide_form();
     show_container_spinner();
-
-    // In case if the container is hidden by default (to not expose empty
-    // table) we are showing it again.
-    $element.removeClass("hidden");
 
     var data = {};
     if (current_page !== null) data.page = current_page;
@@ -277,8 +276,8 @@ function update_items_list() {
 function show_error(text) {
     hide_list_spinner();
     hide_container_spinner();
-    $element.children().remove();
-    $element.append('<div class="alert alert-error">' + text + '</div>');
+    $parent.children().remove();
+    $parent.append('<div class="alert alert-error">' + text + '</div>');
 }
 
 function check_request_error(data, status) {
@@ -307,13 +306,13 @@ function show_list_spinner() {
 
 function hide_list_spinner() {
     $list.show();
-    $element.find(".spinner-container").remove();
+    $parent.find(".spinner-container").remove();
 }
 
 function show_container_spinner() {
-    var w = $element.outerWidth();
-    var h = $element.outerHeight();
-    $element.prepend('<div class="spinner-container" style="width: ' + w +
+    var w = $parent.outerWidth();
+    var h = $parent.outerHeight();
+    $parent.prepend('<div class="spinner-container" style="width: ' + w +
         'px; height: ' + h + 'px; position: absolute; left: 0; top: 0; ' +
         'background-color: #fff; opacity: 0.8; filter: alpha(opacity=80); ' +
         'z-index: 1;"><div class="spinner" style="position: absolute; left: ' +
@@ -322,8 +321,7 @@ function show_container_spinner() {
 }
 
 function hide_container_spinner() {
-    $element.find(".spinner-container")
-        .remove();
+    $parent.find(".spinner-container").remove();
 }
 
 // Item Altering //////////////////////////////////////////////////////////////
