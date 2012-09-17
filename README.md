@@ -53,9 +53,9 @@ JavaScript file is not minified, you can [minify it yourself](http://jscompress.
 
 * * *
 
-Now for the CSS: there is no CSS embedded in the main JavaScript file, so if you want, you may write all styles from scratch.
+There is no CSS embedded in the main JavaScript file, so if you wish, you may write all styles from scratch.
 
-Instead I recommend using [Twitter's Bootstrap](http://twitter.github.com/bootstrap/) for basic styling, it makes your tables and lists look nice by default. AJAX Table was build with Bootstrap in mind, but don't rely on it, skip few paragraphs if you don't use Bootstrap.
+Instead I recommend using [Twitter's Bootstrap](http://twitter.github.com/bootstrap/) for basic styling, it makes your tables and lists look nice by default. AJAX Table was built with Bootstrap in mind but doesn't depend on it. Skip a few paragraphs if you don't use Bootstrap.
 
 **If you are using Bootstrap**, you may want to include [ajax-list-bootstrap.css](https://raw.github.com/mitskevich/ajax-list/master/src/css/ajax-list-bootstrap.css) in your HTML:
 
@@ -89,7 +89,7 @@ Let's assume we have following list:
 
 Instead of `<ul>` this may be `<ol>` list, bunch of `<div>` tags, or even `<table>`, but for the sake of brevity we will assume we have unordered list here.
 
-Basic way to improve it is to create AJAX pagination. It will take less space on the screen and users won't have to load all information at once. Also they won't have to wait while whole HTML page will reload while navigating pages (as oposed to non-AJAX solution).
+Basic way to improve it is to create AJAX pagination. It will take less space on the screen and users won't have to load all information at once. Also they won't have to wait while whole HTML page will reload after going to the next list page (as oposed to non-AJAX solution).
 
 With AJAX List you can do that (and much more) without JavaScript knowledge at all. Don't worry: if you're a JS guru, you can [tweak AJAX List same way as any JQuery Plugin](#tweaking-with-js).
 
