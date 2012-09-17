@@ -37,6 +37,10 @@ Example server script has been tested under Mac OS and Linux, but haven't been t
 Installation
 ------------
 
+TL;DR: include [ajax-list.js](https://raw.github.com/mitskevich/ajax-list/master/src/ajax-list.js) and [ajax-list.css](https://raw.github.com/mitskevich/ajax-list/master/src/css/ajax-list.css) in your HTML. Read further for details.
+
+* * *
+
 Main file to include in your project is [ajax-list.js](https://raw.github.com/mitskevich/ajax-list/master/src/ajax-list.js). Download it and save in your project's static files.
 
 Include it as any other JavaScript file:
