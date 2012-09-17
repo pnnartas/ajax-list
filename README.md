@@ -105,18 +105,18 @@ Now add those two parameters to the `<ul>` tag: `data-display="ajax-list"` and `
 
 Now you have to create a server-side script that will be serving content of a requested page. Obviously, you can change the URL of this script to anything you want by modifying `ajax-list-url` parameter.
 
-The script in question will receive `page` variable (integer, starting from 1) and should generate list of items (without `<ul>`, just `<li>` items) that the requested page contains. Output should look like this:
+The script in question will receive `page` variable (integer, starting from 1) and should generate list of items that the requested page contains. Output should look like this:
 
 ```html
-    <li meta-item="meta-item" item-count="100000" items-per-page="30"></li>
-    <li>Item</li>
-    <li>Some other item</li>
-    ...28 other items...
+<li meta-item="meta-item" item-count="100000" items-per-page="30"></li>
+<li>Item</li>
+<li>Some other item</li>
+...28 other items...
 ```
 
 Item that contains `meta-item` parameter is a special one. It will be removed by AJAX List and will not be displayed to user. Its purpose is to tell AJAX List how many items there are overall (the `item-count` parameter) and how many items should be on one page (`items-per-page` parameter). Based on that information, AJAX List will generate page navigation.
 
-If that "meta" item is absent, AJAX List will assume that whole list is on this page and will not generate navigation. That may seem pointless, but it has its purpose: loading list with AJAX (as opposed to embedding it into HTML direclty) allows your page to load first and be accessible while the long list is catching up.
+If that "meta" item is absent, AJAX List will assume that whole list is fitting on this page and will not place any navigation. That may seem pointless, but it has its purpose: loading list with AJAX (as opposed to embedding it into HTML direclty) allows your page to load first and be accessible while the long list is catching up.
 
 Navigation will be placed in the container element with the class `pagination-container`, so you have to prepare it too.
 
@@ -130,7 +130,7 @@ Let's assume, we removed the list content and created page navigation container,
 <ul data-display="ajax-list" ajax-list-url="/get_list_content"></ul>
 ```
 
-After the site will load, AJAX List will take this `<ul>` and automatically request content for the first page from the `/get_list_content` URL. While it will be loading, spinner animation will be shown (assuming that you have correctly provided it in CSS) and when content will be ready, it will be placed right into `<ul>` tag (replacing everything in it), with page navigation on the top in its own container.
+After the site will load, AJAX List will take this `<ul>` and automatically request content for the first page from the `/get_list_content` URL. While it will be loading, spinner animation will be shown (assuming that you have correctly provided its URL in CSS) and when content will be ready, it will be placed right into `<ul>` tag (replacing everything in it), with page navigation on the top in its own container.
 
 * * *
 
