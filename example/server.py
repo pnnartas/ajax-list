@@ -1,8 +1,12 @@
 import sqlite3
 import urllib
+import os
 from bottle import route, run, static_file, template, request, post
 
-conn = sqlite3.connect("countries.db")
+project_dir = os.path.dirname(os.path.realpath(__file__))
+views_dir = os.path.join(project_dir, "views/")
+static_dir = os.path.join(project_dir, "static/")
+conn = sqlite3.connect(os.path.join(project_dir, "countries.db"))
 conn.row_factory = sqlite3.Row
 c = conn.cursor()
 
@@ -12,19 +16,24 @@ country_fields = ["common_name", "formal_name", "type", "sub_type",
     "iso_3166_1_number", "iana_country_code_tld"]
 
 
+@route("/")
+def index():
+    return static_file("index.html", root=views_dir)
+
+
 @route("/static/<path:path>")
 def js(path):
-    return static_file(path, root="./static")
+    return static_file(path, root=static_dir)
 
 
 @route("/ajax-list/<path:path>")
 def static(path):
-    return static_file(path, root="../src")
+    return static_file(path, root=os.path.join(project_dir, "../src"))
 
 
 @route("/country_table")
 def html():
-    return static_file("country_table.html", root="./views/")
+    return static_file("country_table.html", root=views_dir)
 
 
 @route("/country_info_get_list")
@@ -50,15 +59,16 @@ def get_list():
     for d in data:
         d["item_data"] = urllib.urlencode(d.items()).replace("+", "%20")
 
-    return template("country_list", data=data, count=count, per_page=per_page,
-        start=start)
+    return template(os.path.join(views_dir, "country_list.html"),
+        data=data, count=count, per_page=per_page, start=start)
 
 
 @route("/country_info_get_details")
 def get_country_details():
     id = int(request.query.get("id"))
     res = c.execute("select * from countries where rowid = ?", [id])
-    return template("country_details", data=res.fetchone())
+    return template(os.path.join(views_dir, "country_details.html"),
+        data=res.fetchone())
 
 
 @post("/country_info_save")
