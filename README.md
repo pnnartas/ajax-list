@@ -116,7 +116,7 @@ The script in question will receive `page` variable (integer, starting from 1) a
 
 Item that contains `meta-item` parameter is a special one. It will be removed by AJAX List and will not be displayed to user. Its purpose is to tell AJAX List how many items there are overall (the `item-count` parameter) and how many items should be on one page (`items-per-page` parameter). Based on that information, AJAX List will generate page navigation.
 
-If that "meta" item is absent, AJAX List will assume that whole list is fitting on this page and will not place any navigation. That may seem pointless, but it has its purpose: loading list with AJAX (as opposed to embedding it into HTML direclty) allows your page to load first and be accessible while the long list is catching up.
+If that "meta" item is absent, AJAX List will assume that whole list is fitting on this page and there is no need for navigation. That may seem pointless, but it has its purpose: loading list with AJAX (instead of embedding it into HTML direclty) allows your page to load first and be accessible while the long list is catching up.
 
 Navigation will be placed in the container element with the class `pagination-container`, so you have to prepare it too.
 
