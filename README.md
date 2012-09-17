@@ -32,17 +32,17 @@ On-line examples will be available after version 1.0.0 release. For now you can 
 
 To do this, clone the repository, go into directory `example` inside, and run `python server.py` (assuming you have Python 2.7 installed). Navigate your browser to [http://localhost:8000/](http://localhost:8000/) to see the list of available examples.
 
-Example script has been tested under Mac OS and Linux, but haven't been tested under Windows.
+Example server script has been tested under Mac OS and Linux, but haven't been tested under Windows.
 
 Installation
 ------------
 
-Main file to include in your project is [ajax-list.js](https://raw.github.com/mitskevich/ajax-list/master/src/ajax-list.js). Download it and save in your project static files.
+Main file to include in your project is [ajax-list.js](https://raw.github.com/mitskevich/ajax-list/master/src/ajax-list.js). Download it and save in your project's static files.
 
 Include it as any other JavaScript file:
 
 ```html
-<script src="ajax-list/ajax-list.js"></script>
+<script src="path-to-static-files/ajax-list/ajax-list.js"></script>
 ```
 
 JavaScript file is not minified, you can [minify it yourself](http://jscompress.com/) if you need it.
@@ -54,16 +54,16 @@ Instead I recommend using [Twitter's Bootstrap](http://twitter.github.com/bootst
 **If you are using Bootstrap**, you may want to include [ajax-list-bootstrap.css](https://raw.github.com/mitskevich/ajax-list/master/src/css/ajax-list-bootstrap.css) in your HTML:
 
 ```html
-link href="ajax-list/css/ajax-list-bootstrap.css" rel="stylesheet">
+<link href="path-to-static-files/ajax-list/ajax-list-bootstrap.css" rel="stylesheet">
 ```
 
 It contains different stylings, that are needed for AJAX List, like tooltip with item manipulation icons, form container, sorting direction markers, etc.
 
 Don't forget to review CSS and change URL of your spinner (loading) animation. By default it's `/static/spinner.gif`
 
-**If you are not using Bootstrap**, you can include [ajax-list.css](https://raw.github.com/mitskevich/ajax-list/master/src/css/ajax-list.css) similarily. It contains all that the previous one has, and also some basic lists & tables stylings. Again, don't forget to change the spinner URL.
+**If you are not using Bootstrap**, you can include [ajax-list.css](https://raw.github.com/mitskevich/ajax-list/master/src/css/ajax-list.css) similarily. It contains same stuff as Bootstrap one, but also has some basic lists & tables stylings. Again, don't forget to change the spinner URL.
 
-Last option is to use LESS files instead of CSS. See the section below for further details.
+Last option is to use LESS files instead of CSS. See [the section below](#using-less-files) for further details.
 
 Quick Start
 -----------
@@ -92,8 +92,8 @@ Row Alteration
 Options Reference
 -----------------
 
-Using LESS for Bootstrap
-------------------------
+Using LESS files
+----------------
 
 Copyright and License
 ---------------------
