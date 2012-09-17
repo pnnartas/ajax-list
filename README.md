@@ -134,8 +134,9 @@ When site will load, AJAX List will take this `<ul>` and automatically request c
 
 If you need more information, consult reference topics:
 * [List Initalization](#list-initialization), on what other options you have to create the AJAX List instance and details about how it happens.
-* [Pagination](#pagination), on how to manipulate the list pagination so it will suit your site better.
-* [Sorting](#sorting), on how to allow users sort your list by any parameter you provide.
+* [Pagination](#pagination), on how to manipulate the pagination so it will suit your site better.
+* [Sorting](#sorting), on methods to allow users sort your list by any parameter you provide.
+* [Deep Linking](#deep-linking), on details about how list navigation affects URL and browser history.
 
 Let's continue with list items manipulation.
 
@@ -150,6 +151,9 @@ Pagination
 Sorting
 -------
 
+Deep Linking
+------------
+
 Adding Items
 ------------
 
@@ -157,7 +161,7 @@ Editing Items
 -------------
 
 Deleting Items
--------------
+--------------
 
 Detailed Information About Item
 -------------------------------
