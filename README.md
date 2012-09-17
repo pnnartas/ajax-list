@@ -19,6 +19,7 @@ Features
 * *Smart defaults.*
   In 90% cases there is zero JS code needed to use the AJAX List. Just include the main JS file and add parameters to the HTML tags.
 * *Developed as a JQuery plugin.*
+  No other dependencies except JQuery. If JQuery Form plugin is loaded, it is automatically used for item adding/editing form.
 * *Compatible with Twitter's Bootstrap.*
   LESS files are provided for hardcore Bootstrap users to compile as extension and be as DRY as possible. Everyone else can use stand-alone CSS to make lists look good without additional effort.
 * *Tested in Chrome, Safari, Firefox, IE7+ and Opera.*
