@@ -89,7 +89,7 @@ Let's assume we have following list:
 
 Instead of `<ul>` this may be `<ol>` list, bunch of `<div>` tags, or even `<table>`, but for the sake of brevity we will assume we have unordered list here.
 
-Basic way to improve it is to create AJAX pagination. It will take less space and users don't have to load all information at once. Also they don't have to wait while whole HTML page will reload when navigating pages,
+Basic way to improve it is to create AJAX pagination. It will take less space on the screen and users won't have to load all information at once. Also they won't have to wait while whole HTML page will reload while navigating pages (as oposed to non-AJAX solution).
 
 With AJAX List you can do that (and much more) without JavaScript knowledge at all. Don't worry: if you're a JS guru, you can [tweak AJAX List same way as any JQuery Plugin](#tweaking-with-js).
 
@@ -130,7 +130,14 @@ Let's assume, we removed the list content and created page navigation container,
 <ul data-display="ajax-list" ajax-list-url="/todo_get_list"></ul>
 ```
 
-After the site will load, AJAX List will take this `<ul>` and automatically request content of the first page from the `/todo_get_list` URL. While it will be loading, spinner animation will be shown (assuming that you have correctly provided its URL in CSS) and when content will be ready, it will be placed right into `<ul>` tag (replacing everything in it), with page navigation on the top in its own container.
+When site will load, AJAX List will take this `<ul>` and automatically request content of the first page from the `/todo_get_list` URL. While it will be loading, spinner animation will be shown (assuming that you have correctly provided its URL in CSS) and when content will be ready, it will be placed right into `<ul>` tag (replacing everything in it), with page navigation on the top in its own container.
+
+If you need more information, consult reference topics:
+* [List Initalization](#list-initialization), on what other options you have to create the AJAX List instance and details about how it happens.
+* [Pagination](#pagination), on how to manipulate the list pagination so it will suit your site better.
+* [Sorting](#sorting), on how to allow users sort your list by any parameter you provide.
+
+Let's continue with list items manipulation.
 
 * * *
 
@@ -143,9 +150,6 @@ Pagination
 Sorting
 -------
 
-Detailed Information About Item
--------------------------------
-
 Adding Items
 ------------
 
@@ -154,6 +158,9 @@ Editing Items
 
 Deleting Items
 -------------
+
+Detailed Information About Item
+-------------------------------
 
 Row Alteration
 --------------
