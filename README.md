@@ -74,9 +74,12 @@ Last option is to use LESS files instead of CSS. See [the section below](#using-
 Quick Start
 -----------
 
-Let's assume you have following list:
+This is a quick walkthrough on how to work with AJAX List, for detailed reference consult further sections.
+
+Let's assume we have following list:
 
 ```html
+<h1>List of Items</h1>
 <ul>
     <li>Item</li>
     <li>Some other item</li>
@@ -84,7 +87,55 @@ Let's assume you have following list:
 </ul>
 ```
 
+Instead of `<ul>` this may be `<ol>` list, bunch of `<div>` tags, or even `<table>`, but for the sake of brevity we will assume we have unordered list here.
 
+Basic way to improve it is to create AJAX pagination. It will take less space and users don't have to load all information at once. Also they don't have to wait while whole HTML page will reload when navigating pages,
+
+With AJAX List you can do that (and much more) without JavaScript knowledge at all. Don't worry: if you're a JS guru, you can [tweak AJAX List same way as any JQuery Plugin](#tweaking-with-js).
+
+First, [include AJAX List's JavaScript file in your project](#installation) if it's not there.
+
+Now add those two parameters to the `<ul>` tag: `data-display="ajax-list"` and `ajax-list-url="/get_list_content"`. Like this:
+
+```html
+<ul data-display="ajax-list" ajax-list-url="/get_list_content">
+```
+
+`data-display` is simply telling AJAX List to treat this list as an AJAX List. `ajax-list-url` is specifying URL that will be used to retrieve a requested page of content.
+
+Now you have to create a server-side script that will be serving content of a requested page. Obviously, you can change the URL of this script to anything you want by modifying `ajax-list-url` parameter.
+
+The script in question will receive `page` variable (integer, starting from 1) and should generate list of items (without `<ul>`, just `<li>` items) that the requested page contains. Output should look like this:
+
+```html
+    <li meta-item="meta-item" item-count="100000" items-per-page="30"></li>
+    <li>Item</li>
+    <li>Some other item</li>
+    ...28 other items...
+```
+
+Item that contains `meta-item` parameter is a special one. It will be removed by AJAX List and will not be displayed to user. Its purpose is to tell AJAX List how many items there are overall (the `item-count` parameter) and how many items should be on one page (`items-per-page` parameter). Based on that information, AJAX List will generate page navigation.
+
+If that "meta" item is absent, AJAX List will assume that whole list is on this page and will not generate navigation. That may seem pointless, but it has its purpose: loading list with AJAX (as opposed to embedding it into HTML direclty) allows your page to load first and be accessible while the long list is catching up.
+
+Navigation will be placed in the container element with the class `pagination-container`, so you have to prepare it too.
+
+Also, now you can remove content of your list from HTML, because AJAX List will load the first page right after HTML will be loaded in browser. Otherwise, you may leave the content (for example if you want your site working without JS enabled), it will be simply replaced by AJAX List as soon as page will load.
+
+Let's assume, we removed the list content and created page navigation container, so our list is looking like that now:
+
+```html
+<h1>List of Items</h1>
+<div class="pagination-container"></div>
+<ul data-display="ajax-list" ajax-list-url="/get_list_content"></ul>
+```
+
+After the site will load, AJAX List will take this `<ul>` and automatically request content for the first page from the `/get_list_content` URL. While it will be loading, spinner animation will be shown (assuming that you have correctly provided it in CSS) and when content will be ready, it will be placed right into `<ul>` tag (replacing everything in it), with page navigation on the top in its own container.
+
+* * *
+
+List Initialization
+-------------------
 
 Pagination
 ----------
@@ -106,6 +157,9 @@ Deleting Items
 
 Row Alteration
 --------------
+
+Tweaking With JS
+================
 
 Options Reference
 -----------------
