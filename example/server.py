@@ -6,10 +6,11 @@ conn = sqlite3.connect("countries.db")
 conn.row_factory = sqlite3.Row
 c = conn.cursor()
 
-country_fields = [ "common_name", "formal_name", "type", "sub_type",
+country_fields = ["common_name", "formal_name", "type", "sub_type",
     "sovereignty", "capital", "iso4217_currency_code", "iso4217_currency_name",
     "itu_t_telephone_code", "iso3166_1_2letter_code", "iso3166_1_3letter_code",
-    "iso_3166_1_number", "iana_country_code_tld" ]
+    "iso_3166_1_number", "iana_country_code_tld"]
+
 
 @route("/static/<path:path>")
 def js(path):
@@ -21,9 +22,9 @@ def static(path):
     return static_file(path, root="../src")
 
 
-@route("/<path:path>")
-def html(path):
-    return static_file(path, root="./static")
+@route("/country_table")
+def html():
+    return static_file("country_table.html", root="./views/")
 
 
 @route("/country_info_get_list")

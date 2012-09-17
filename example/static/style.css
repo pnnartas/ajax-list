@@ -1,5 +1,6 @@
 body { padding-bottom: 20px; }
 .sub-type { color: #999; }
+span.val-name { color: #777; display: inline-block; width: 120px; }
 .pagination { margin-top: 0; }
 .add-item-block { margin-bottom: 20px; }
 .btn.add-item { margin-top: 10px; }
