@@ -71,6 +71,54 @@ Don't forget to review CSS and change URL of your spinner (loading) animation. B
 
 Last option is to use LESS files instead of CSS. See [the section below](#using-less-files) for further details.
 
+TL;DR Start (example-based hacking)
+-----------------------------------
+
+**1. Your HTML should look like this:**
+
+```html
+<h1>My TODO List:</h1>
+<div class="pagination-container"></div>
+<ul data-display="ajax-list" ajax-list-url="/todo_*" ajax-list-able="add,edit,delete"></ul>
+<form class="item-form">
+  <input type="text" name="name">
+  <button type="submit" name="submit">Submit</button>
+</form>
+```
+
+  * `<ul ...` - your list without content.
+  * `data-display="ajax-list"` - enables AJAX List.
+  * `ajax-list-url="/todo_*"` - gives the base URLs for server-side scripts for the list.
+  * `ajax-list-able="add,edit,delete" - what AJAX List can do.
+  * `<form class="item-form">` - form for adding & editing list items.
+  * `<div class="pagination-container">` - container for page navigation.
+
+**2. Implement `/todo_get_list` server-side script**
+
+It will receive `page` variable and should return something like this:
+
+```html
+<li meta-item="meta-item" item-count="100000" items-per-page="30"></li>
+<li item-data="id=1&name=Item">Item</li>
+<li item-data="id=2&name=Some%20other%20item">Some other item</li>
+...28 other items...
+```
+
+  * `<li meta-item="meta-item" ...` - contains information for pagination.
+    * `item-count="100000"` - our list has 100000 items overall!
+    * `items-per-page="30"` - there are 30 items on a page
+  * `item-data="..."` - item properties and id URL-encoded. On edit will be inserted in form's fields with corresponding names.
+
+**3. Implement `/todo_save` server-side script**
+
+It will receive submitted item form and, if editing, item ID. Should return nothing on success.
+
+**4. Implement `/todo_delete` server-side script**
+
+It will receive ID of item that should be removed. Should return nothing on success.
+
+**5. Basic AJAX List is ready. Study examples and read code comments for more.**
+
 Quick Start
 -----------
 
@@ -141,6 +189,55 @@ If you need more information, consult reference topics:
 Let's continue with list items manipulation.
 
 * * *
+
+Enabling capability to add, remove and edit items in the list is simple. Modify `<ul>` tag as following:
+
+```html
+<ul data-display="ajax-list" ajax-list-url="/todo_*" ajax-list-able="add,edit,delete"></ul>
+...
+</ul>
+```
+
+We added new parameter `ajax-list-able` it contains a comma-separated set of what our list is able to do. In this case it's, obviously, adding, editing and deleting items. If you don't need, for example, capability of removing items, just don't specify it here.
+
+Another change is the value of `ajax-list-url` parameter: it now contains only prefix, asterisk symbol will be replaced with according string to resolve the action URL. In our example, AJAX List will use following URLs:
+
+* `/todo_get_list` - for retrieving list content.
+  We already learned how this works in previous section.
+
+* `/todo_save` - for saving a new item, or saving changes after an edit.
+  It will receive submitted item form data with POST method. If submitted form is for existing item (editing), it will receive item ID in `id` variable with GET method.
+
+* `/todo_delete` - for removing an item.
+  It will receive ID of deleted item in `id` variable with GET.
+
+To be able to add and edit items you have to create a form. It should have class `item-form` and reside in same DOM element that is a parent to your `<ul>` (not necessary a sibling, can be a child of a sibling element). This form should contain all field needed to create a new list item. In our case form may look like that:
+
+```html
+<form class="item-form">
+  <input type="text" name="name">
+  <button type="submit" name="submit">Submit</button>
+</form>
+```
+
+AJAX List will automatically create an "Add item" button and hide your form after it will be initialized.
+
+Every item in the list will have a special tool-tip that will appear on mouse over: this tool-tip will display "edit" and "remove" buttons for that item.
+
+After user click on "edit" button, the form you created is displayed under the item and automatically populated by item data. But this data should come from somewhere, right? Correct, you have to modify the server-side script that gives you the list of items, to contain this information in the `item-data` parameter of each item:
+
+```html
+<li meta-item="meta-item" item-count="100000" items-per-page="30"></li>
+<li item-data="id=1&name=Item">Item</li>
+<li item-data="id=2&name=Some%20other%20item">Some other item</li>
+...28 other items...
+```
+
+As you see in the example, each our item has an ID and only one property named `name`. Property name-value list should be URL-encoded with spaces encoded as `%20` (not as plus symbol). Item form inputs should have names that correspond to property names listed in `item-data`, that way AJAX List knows which fields should be populated with what data.
+
+Deleting is simple: clicking on a "delete" button will invoke previously mentioned URL and provide it with item ID.
+
+Now, all that's left is to implement save and delete methods.
 
 List Initialization
 -------------------
