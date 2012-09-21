@@ -89,7 +89,7 @@ TL;DR Start (example-based hacking)
   * `<ul ...` - your list without content.
   * `data-display="ajax-list"` - enables AJAX List.
   * `ajax-list-url="/todo_*"` - gives the base URLs for server-side scripts for the list.
-  * `ajax-list-able="add,edit,delete" - what AJAX List can do.
+  * `ajax-list-able="add,edit,delete"` - what AJAX List can do.
   * `<form class="item-form">` - form for adding & editing list items.
   * `<div class="pagination-container">` - container for page navigation.
 
@@ -198,7 +198,7 @@ Enabling capability to add, remove and edit items in the list is simple. Modify 
 </ul>
 ```
 
-We added new parameter `ajax-list-able` it contains a comma-separated set of what our list is able to do. In this case it's, obviously, adding, editing and deleting items. If you don't need, for example, capability of removing items, just don't specify it here.
+We added a new parameter `ajax-list-able` it contains comma-separated set of what our list is able to do. In this case it's, obviously, adding, editing and deleting items. If you don't need, for example, capability of removing items, just don't specify it here.
 
 Another change is the value of `ajax-list-url` parameter: it now contains only prefix, asterisk symbol will be replaced with according string to resolve the action URL. In our example, AJAX List will use following URLs:
 
